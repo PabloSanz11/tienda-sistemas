@@ -18,7 +18,7 @@
 
 /* Large thumbnail: */
 #etalage .etalage_thumb{
-	background:url(../images/loading.gif) center no-repeat;
+	/*background:url(../images/loading.gif) center no-repeat;*/
 	border: 1px solid #eee;
 }
 /* Large thumbnail - image (in case you want to add a border around the image within the frame) */
@@ -54,7 +54,7 @@
 
 /* Icon that will apear at the left bottom of the large thumbnail (optional): */
 #etalage .etalage_icon{
-	background: url(../images/zoom.png) no-repeat rgba(184, 183, 181, 0.32);
+	/*background: url(../images/zoom.png) no-repeat rgba(184, 183, 181, 0.32);*/
 	width: 104px;
 	height: 104px;
 }
