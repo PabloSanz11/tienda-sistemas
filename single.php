@@ -1,13 +1,32 @@
-<!--A Design by W3layouts
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Surfhouse Bootstarp Website Template | Single :: w3layouts</title>
+<?php 
+	include('php/consultas.php');
+	session_start();
+	if(isset($_SESSION['validacion']))
+    {
+		$idCliente = $_SESSION['idCliente'];
+		$saludo = explode(" ",$_SESSION['nombre']);
+	}
+
+	if(isset($_POST['idProducto']))
+	{
+		$idProducto = $_POST['idProducto'];
+		$foto = $_POST['foto'];
+		$query = productoEspecifico($idProducto);
+		while($rU = mysqli_fetch_array($query))
+		{
+			$nombre = utf8_encode($rU['nombre']);
+			$descripcion = utf8_encode($rU['descripcion']);
+			$categoria = utf8_encode($rU['categoria']);
+			$cantidad = $rU['cantidad'];
+			$ruta = "php/".$rU['foto'];
+			$precio = $rU['precio'];
+		}
+	}
+?>
+<title>Producto</title>
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
@@ -80,22 +99,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="container">
 		<div class="header-top">
       		 <div class="logo">
-				<a href="index.php"><img src="images/logo.png" alt=""/></a>
+				<a href="index.php"><img src="images/logo-tienda.png" alt="" style="width:6em"/></a>
 			 </div>
 		   <div class="header_right">
 			 <ul class="social">
 				<li><a href=""> <i class="fb"> </i> </a></li>
 				<li><a href=""><i class="tw"> </i> </a></li>
 				<li><a href=""><i class="utube"> </i> </a></li>
-				<li><a href=""><i class="pin"> </i> </a></li>
 				<li><a href=""><i class="instagram"> </i> </a></li>
 			 </ul>
 		    <div class="lang_list">
 			  <select tabindex="4" class="dropdown">
-				<option value="" class="label" value="">En</option>
-				<option value="1">English</option>
-				<option value="2">French</option>
-				<option value="3">German</option>
+				<option value="" class="label" value="">Sesión</option>
+				<option value="1">Cerrar</option>
 			  </select>
    			</div>
 			<div class="clearfix"></div>
@@ -103,31 +119,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
           <div class="clearfix"></div>
 		 </div>  
 		 <div class="apparel_box">
-			<ul class="login">
-				<li class="login_text"><a href="login.html">Login</a></li>
-				<li class="wish"><a href="checkout.php">Wish List</a></li>
-				<div class='clearfix'></div>
-		    </ul>
-		    <div class="cart_bg">
-			  <ul class="cart">
-				<i class="cart_icon"></i><p class="cart_desc">$1459.50<br><span class="yellow">2 items</span></p>
-			    <div class='clearfix'></div>
-			  </ul>
-			  <ul class="product_control_buttons">
-				 <li><a href="#"><img src="images/close.png" alt=""/></a></li>
-				 <li><a href="#">Edit</a></li>
-			  </ul>
-		      <div class='clearfix'></div>
-			 </div>
-			 <ul class="quick_access">
-				<li class="view_cart"><a href="checkout.php">View Cart</a></li>
-				<li class="check"><a href="checkout.php">Checkout</a></li>
-				<div class='clearfix'></div>
-		     </ul>
-			<div class="search">
-			   <input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
-			   <input type="submit" value="">
-			</div>
+		 	<ul class="login">
+				<?php if(isset($_SESSION['validacion']))
+      				{
+				?>
+				   		<li class="login_text"><a href="perfil.php"><?php echo $saludo[0];?></a></li>
+				<?php
+					}else
+					{?>
+						<li class="login_text"><a href="login.html">Iniciar Sesión</a></li>
+					<?php
+					}?>
+				   	<div class='clearfix'></div>
+				</ul>
+				<ul class="quick_access">
+				   	<li class="view_cart"><a href="checkout.php">Ver carrito</a></li>
+				   	<div class='clearfix'></div>
+				</ul>
 		  </div>
 		</div>
     </div>
@@ -136,232 +144,129 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="container">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="menu_box">
+					<div class="menu_box"><br>
 				   	  	<h3 class="menu_head">Menu</h3>
 				   	     <ul class="nav">
-					   	  	<li><a href="apparel.html">About</a></li>
-					   	  	<li><a href="apparel.html">Apparel</a></li>
-					   	  	<li><a href="apparel.html">Surf Apparel</a></li>
-					   	  	<li><a href="apparel.html">Windsurf</a></li>
-					   	  	<li><a href="apparel.html">Kitesurf</a></li>
-					   	  	<li><a href="apparel.html">Accessories</a></li>
-					   	  	<li><a href="apparel.html">Sale</a></li>
-					   	  	<li><a href="apparel.html">Brands</a></li>
-					   	  	<li><a href="apparel.html">Blog</a></li>
-					   	  	<li><a href="apparel.html">Gadgets</a></li>
-					   	  	<li><a href="contact.html">Contact</a></li>
+					   	  	<li><a href="index.php">Página Principal</a></li>
+					   	  	<li><a href="perfil.php">Perfil</a></li>
+					   	  	<li><a href="apparel.html">Productos</a></li>
+					   	  	<li><a href="checkout.php">Carrito</a></li>
+					   	  	<li><a href="apparel.html">Pedidos</a></li>
 					   	 </ul>
 			   	    </div>
 			   	    <div class="category">
-			   	    	<h3 class="menu_head">Category Options</h3>
+			   	    	<h3 class="menu_head">Categorias</h3>
 			   	    	<ul class="category_nav">
-					   	  	<li><a href="#">Men</a></li>
-					   	  	<li><a href="#">Women</a></li>
-					   	  	<li><a href="#">Kids</a></li>
-					   	  	<li><a href="#">Wetsuits</a></li>
-					   	  	<li><a href="#">Outerwear</a></li>
+					   	  	<li><a href="#"></a></li>
+					   	  	<li><a href="#">cuerda</a></li>
+					   	  	<li><a href="#">viento </a></li>
+					   	  	<li><a href="#">percusión</a></li>
+					   	  	<li><a href="#">idiófonos</a></li>
+					   	  	<li><a href="#">electrófonos</a></li>
 					   	</ul>
 			   	    </div>
-			   	    <div class="category">
-			   	    	<h3 class="menu_head">Brand Options</h3>
-			   	    	<ul class="category_nav">
-					   	  	<li><a href="#">Billabong</a></li>
-					   	  	<li><a href="#">Element</a></li>
-					   	  	<li><a href="#">o'neill</a></li>
-					   	  	<li><a href="#">Oakley</a></li>
-					   	  	<li><a href="#">Reef</a></li>
-					   	  	<li><a href="#">Quiksilver</a></li>
-					   	  	<li><a href="#">Ripcurl</a></li>
-					   	  	<li><a href="#">Jackss</a></li>
-					   	</ul>
-			   	    </div>
-			   	    <div class="tags">
-				    	<h4 class="tag_head">Tags Widget</h4>
-				         <ul class="tags_links">
-							<li><a href="#">Kitesurf</a></li>
-							<li><a href="#">Super</a></li>
-							<li><a href="#">Duper</a></li>
-							<li><a href="#">Theme</a></li>
-							<li><a href="#">Men</a></li>
-							<li><a href="#">Women</a></li>
-							<li><a href="#">Equipment</a></li>
-							<li><a href="#">Best</a></li>
-							<li><a href="#">Accessories</a></li>
-							<li><a href="#">Men</a></li>
-							<li><a href="#">Apparel</a></li>
-							<li><a href="#">Super</a></li>
-							<li><a href="#">Duper</a></li>
-							<li><a href="#">Theme</a></li>
-							<li><a href="#">Responsiv</a></li>
-					        <li><a href="#">Women</a></li>
-							<li><a href="#">Equipment</a></li>
-						</ul>
-						<a href="#" class="link1">View all tags</a>
-				     </div>
 				     <div class="side_banner">
-					   <div class="banner_img"><img src="images/pic9.jpg" class="img-responsive" alt=""/></div>
+					   <div class="banner_img"><img src="images/gui.jpg" class="img-responsive" alt=""/></div>
 					   <div class="banner_holder">
-						  <h3>Now <br> is <br> Open!</h3>
+						  <h3 style="color: white;">Now <br> is <br> Open!</h3>
 					   </div>
-				     </div>
+				    </div>
 			  </div>
 			  <div class="col-md-9">
 			    <div class="dreamcrub">
-			   	 <ul class="breadcrumbs">
+				<ul class="breadcrumbs">
                     <li class="home">
-                       <a href="index.php" title="Go to Home Page">Home</a>&nbsp;
+                       <a href="index.php" title="Go to Home Page">Inicio</a>&nbsp;
                        <span>&gt;</span>
-                    </li>
+					</li>
                     <li class="home">&nbsp;
-                        Apparel&nbsp;
+						<?php echo $categoria;?>&nbsp;
                         <span>&gt;</span>&nbsp;
-                    </li>
-                    <li class="home">&nbsp;
-                        &nbsp;Women
-                        <span>&gt;</span>&nbsp;
-                    </li>
-                    <li class="women">
-                       Peekey Cropped
+					</li>
+					<li class="women">
+						<?php echo $nombre;?>
                     </li>
                 </ul>
                 <ul class="previous">
-                	<li><a href="index.php">Back to Previous Page</a></li>
+                	<li><a href="index.php">Volver a la Página anterior</a></li>
                 </ul>
                 <div class="clearfix"></div>
 			   </div>
 			   <div class="singel_right">
 			     <div class="labout span_1_of_a1">
 				<!-- start product_slider -->
-				     <ul id="etalage">
+				<ul id="etalage">
 							<li>
 								<a href="optionallink.html">
-									<img class="etalage_thumb_image" src="images/s1.jpg" class="img-responsive" />
-									<img class="etalage_source_image" src="images/smal.jpg" class="img-responsive" />
+									<img class="etalage_thumb_image" src="<?php echo $foto?>" class="img-responsive" />
+									<img class="etalage_source_image" src="<?php echo $foto?>" class="img-responsive" />
 								</a>
-							</li>
-							<li>
-								<img class="etalage_thumb_image" src="images/s2.jpg" class="img-responsive" />
-								<img class="etalage_source_image" src="images/smal1.jpg" class="img-responsive" />
-							</li>
-							<li>
-								<img class="etalage_thumb_image" src="images/s3.jpg" class="img-responsive" />
-								<img class="etalage_source_image" src="images/smal2.jpg" class="img-responsive" />
-							</li>
-							<li>
-								<img class="etalage_thumb_image" src="images/s3.jpg" class="img-responsive" />
-								<img class="etalage_source_image" src="images/smal3.jpg" class="img-responsive" />
-							</li>
-							<li>
-								<img class="etalage_thumb_image" src="images/s1.jpg" class="img-responsive" />
-								<img class="etalage_source_image" src="images/smal.jpg" class="img-responsive" />
-							</li>
-							<li>
-								<img class="etalage_thumb_image" src="images/s2.jpg" class="img-responsive" />
-								<img class="etalage_source_image" src="images/smal1.jpg" class="img-responsive" />
-							</li>
-							<li>
-								<img class="etalage_thumb_image" src="images/s3.jpg" class="img-responsive" />
-								<img class="etalage_source_image" src="images/smal2.jpg" class="img-responsive" />
 							</li>
 						</ul>
 					<!-- end product_slider -->
 			  </div>
 			  <div class="cont1 span_2_of_a1">
-				<h1>Peeky Cropped</h1>
-				<ul class="rating">
-				   <li><a class="product-rate" href="#"> <label> </label></a> <span> </span></li>
-				   <li><a href="#">1 Review(s) Add Review</a></li>
-				   <div class="clearfix"></div>
-			    </ul>
+				<h1><?php echo $nombre;?></h1>
 			    <div class="price_single">
-				  <span class="reducedfrom">$140.00</span>
-				  <span class="actual">$120.00</span><a href="#">click for offer</a>
+				  <span class="actual">$<?php echo $precio;?></span>
 				</div>
-				<h2 class="quick">Quick Overview:</h2>
-				<p class="quick_desc"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; es</p>
-			    <ul class="size">
-					<h3>Size</h3>
-					<li><a href="#">25</a></li>
-					<li><a href="#">26</a></li>
-					<li><a href="#">27</a></li>
-					<li><a href="#">28</a></li>
-					<li><a href="#">29</a></li>
-					<li><a href="#">30</a></li>
-					<li><a href="#">31</a></li>
-					<li><a href="#">32</a></li>
-					<li><a href="#">33</a></li>
-				</ul>
-				<ul class="size">
-					<h3>Length</h3>
-					<li><a href="#">32</a></li>
-					<li><a href="#">34</a></li>
-				</ul>
+				<h2 class="quick">Descripción:</h2>
+				<p class="quick_desc" style="text-align:justify;"><?php echo $descripcion;?></p>
+				<form action="php/add-carrito.php" method="post">
 				<ul class="product-qty">
-				   <span>Quantity:</span>
-				   <select>
-					 <option>1</option>
-					 <option>2</option>
-					 <option>3</option>
-					 <option>4</option>
-					 <option>5</option>
-					 <option>6</option>
+				   <span>Cantidad:</span>
+				   <?php
+				 	if($cantidad > 0):
+				   ?>
+				   <select name="cantidad">
+				   	<?php for ($i=0; $i < $cantidad; $i++):?>
+					 <option><?php echo $i + 1;?></option>
+					   <?php endfor;
+					endif;?>
 				   </select>
-			    </ul>
+				   <?php if($cantidad == 0): ?>
+					<p class="quick_desc" style="color:red;font-size:1.1em;"><b>PRODUCTO SIN EXISTENCIAS</b></p>
+				   <?php endif; ?>
+			    </ul><br>
 			    <div class="btn_form">
-				   <form>
-					 <input type="submit" value="Add to Cart" title="">
-				  </form>
+					<?php if($cantidad > 0): ?>
+					<input style="display:none;" type="text" name="idProducto" value="<?php echo $idProducto;?>">
+					<input style="display:none;" type="text" name="foto" value="<?php echo $ruta;?>">
+					<input style="display:none;" type="text" name="total" value="<?php echo $precio;?>">
+					<input class="add-car" type="submit" value="Agregar al Carrito" title="">
+					<?php endif; ?>
 				</div>
+				</form>
 			</div>
 			<div class="clearfix"></div>
 		   </div>
 		   <div class="sap_tabs">	
 				     <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
 						  <ul class="resp-tabs-list">
-						  	  <li class="resp-tab-item" aria-controls="tab_item-0" role="tab"><span>Product Description</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span>Additional Information</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span>Reviews</span></li>
+						  	  <li class="resp-tab-item" aria-controls="tab_item-0" role="tab"><span>Información Adicional</span></li>
 							  <div class="clear"></div>
 						  </ul>				  	 
 							<div class="resp-tabs-container">
 							    <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
 									<div class="facts">
-									  <ul class="tab_list">
-									  	<li><a href="#">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat</a></li>
-									  	<li><a href="#">augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigatione</a></li>
-									  	<li><a href="#">claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica</a></li>
-									  	<li><a href="#">Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</a></li>
+									  <ul class="tab_list" style="align-text:center;">
+									  	<li><a href="#"><?php echo $descripcion;?></a></li>
 									  </ul>           
 							        </div>
-							     </div>	
-							      <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
-									<div class="facts">
-									  <ul class="tab_list">
-									    <li><a href="#">augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigatione</a></li>
-									  	<li><a href="#">claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica</a></li>
-									  	<li><a href="#">Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</a></li>
-									  </ul>           
-							        </div>
-							     </div>	
-							      <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
-									<ul class="tab_list">
-									  	<li><a href="#">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat</a></li>
-									  	<li><a href="#">augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigatione</a></li>
-									  	<li><a href="#">claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores leg</a></li>
-									  	<li><a href="#">Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</a></li>
-									  </ul>      
-							     </div>	
+							     </div>
 							 </div>
 					      </div>
 					 </div>	
-					 <h3 class="like">You Might Also Like</h3>        			
+					 <h3 class="like">Productos Relacionados</h3>
 				     <ul id="flexiselDemo3">
-						<li><img src="images/pic11.jpg" /><div class="grid-flex"><a href="#">Syenergy 2mm</a><p>Rs 850</p></div></li>
-						<li><img src="images/pic10.jpg" /><div class="grid-flex"><a href="#">Surf Yoke</a><p>Rs 1050</p></div></li>
-						<li><img src="images/pic9.jpg" /><div class="grid-flex"><a href="#">Salty Daiz</a><p>Rs 990</p></div></li>
-						<li><img src="images/pic8.jpg" /><div class="grid-flex"><a href="#">Cheeky Zane</a><p>Rs 850</p></div></li>
-						<li><img src="images/pic7.jpg" /><div class="grid-flex"><a href="#">Synergy</a><p>Rs 870</p></div></li>
-				     </ul>
+					<?php
+						$query = productosRelacionados($categoria);
+						while($rU = mysqli_fetch_array($query)):
+							$ruta = "php/".$rU['foto'];
+					?>
+						<li><img src="<?php echo $ruta;?>"/><div class="grid-flex"><a href="#"></a></li>
+					<?php endwhile;?>
+					 </ul>
 				    <script type="text/javascript">
 					 $(window).load(function() {
 						$("#flexiselDemo3").flexisel({
@@ -390,46 +295,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					});
 				   </script>
 				   <script type="text/javascript" src="js/jquery.flexisel.js"></script>
-				   <h3 class="recent">Recently Viewed</h3>
-				   <ul id="flexiselDemo1">
-						<li><img src="images/pic1.jpg" /><div class="grid-flex"><a href="#">Syenergy 2mm</a><p>Rs 850</p></div></li>
-						<li><img src="images/pic2.jpg" /><div class="grid-flex"><a href="#">Surf Yoke</a><p>Rs 1050</p></div></li>
-						<li><img src="images/pic3.jpg" /><div class="grid-flex"><a href="#">Salty Daiz</a><p>Rs 990</p></div></li>
-						<li><img src="images/pic4.jpg" /><div class="grid-flex"><a href="#">Cheeky Zane</a><p>Rs 850</p></div></li>
-						<li><img src="images/pic5.jpg" /><div class="grid-flex"><a href="#">Synergy</a><p>Rs 870</p></div></li>
-				     </ul>
-				    <script type="text/javascript">
-					 $(window).load(function() {
-						$("#flexiselDemo1").flexisel({
-							visibleItems: 3,
-							animationSpeed: 1000,
-							autoPlay: true,
-							autoPlaySpeed: 3000,    		
-							pauseOnHover: true,
-							enableResponsiveBreakpoints: true,
-					    	responsiveBreakpoints: { 
-					    		portrait: { 
-					    			changePoint:480,
-					    			visibleItems: 1
-					    		}, 
-					    		landscape: { 
-					    			changePoint:640,
-					    			visibleItems: 2
-					    		},
-					    		tablet: { 
-					    			changePoint:768,
-					    			visibleItems: 3
-					    		}
-					    	}
-					    });
-					    
-					});
-				   </script>
 			</div>
 		 </div>
 		</div>
 	    </div>
-		<div class="container">
+<div class="container">
 		  <div class="brands">
 			 <ul class="brand_icons">
 				<li><img src='images/icon1.jpg' class="img-responsive" alt=""/></li>
@@ -443,26 +313,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		   </div>
 	    </div>
 	    <div class="container">
-	      <div class="instagram_top">
-	      	<div class="instagram text-center">
-				<h3><i class="insta_icon"> </i> Instagram feed:&nbsp;<span class="small">#Surfhouse</span></h3>
-			</div>
-	        <ul class="instagram_grid">
-			  <li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/i1.jpg" class="img-responsive"alt=""/></a></li>
-			  <li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/i2.jpg" class="img-responsive" alt=""/></a></li>
-			  <li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/i3.jpg" class="img-responsive" alt=""/></a></li>
-			  <li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/i4.jpg" class="img-responsive" alt=""/></a></li>
-			  <li><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/i5.jpg" class="img-responsive" alt=""/></a></li>
-			  <li class="last_instagram"><a class="popup-with-zoom-anim" href="#small-dialog1"><img src="images/i6.jpg" class="img-responsive" alt=""/></a></li>
-			  <div class="clearfix"></div>
-			  <div id="small-dialog1" class="mfp-hide">
-				<div class="pop_up">
-					<h4>A Sample Photo Stream</h4>
-					<img src="images/i_zoom.jpg" class="img-responsive" alt=""/>
-				</div>
-			  </div>
-			</ul>
-		  </div>
 	      <ul class="footer_social">
 			<li><a href="#"> <i class="fb"> </i> </a></li>
 			<li><a href="#"><i class="tw"> </i> </a></li>
@@ -473,52 +323,35 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <div class="footer">
 			<div class="container">
 				<div class="footer-grid">
-					<h3>Category</h3>
+					<h3></h3>
 					<ul class="list1">
-					  <li><a href="#">Home</a></li>
-					  <li><a href="#">About us</a></li>
-					  <li><a href="#">Eshop</a></li>
-					  <li><a href="#">Features</a></li>
-					  <li><a href="#">New Collections</a></li>
-					  <li><a href="#">Blog</a></li>
-					  <li><a href="#">Contact</a></li>
+					  <li><a href="#"></a></li>
+					  <li><a href="#"></a></li>
+					  <li><a href="#"></a></li>
+					  <li><a href="#"></a></li>
 				    </ul>
 				</div>
 				<div class="footer-grid">
-					<h3>Our Account</h3>
+					<h3>Menú</h3>
+					<ul class="list1">
+					  <li><a href="#">Perfil</a></li>
+					  <li><a href="#">Productos</a></li>
+					  <li><a href="#">Carrito</a></li>
+					  <li><a href="#">Pedidos</a></li>
+				    </ul>
+				</div>
+				<div class="footer-grid">
+					<h3>Categorias</h3>
 				    <ul class="list1">
-					  <li><a href="#">Your Account</a></li>
-					  <li><a href="#">Personal information</a></li>
-					  <li><a href="#">Addresses</a></li>
-					  <li><a href="#">Discount</a></li>
-					  <li><a href="#">Orders history</a></li>
-					  <li><a href="#">Addresses</a></li>
-					  <li><a href="#">Search Terms</a></li>
+					  <li><a href="#">Cuerda</a></li>
+					  <li><a href="#">Viento</a></li>
+					  <li><a href="#">Percusión</a></li>
+					  <li><a href="#">Idiófonos</a></li>
+					  <li><a href="#">Electrófonicos</a></li>
 				    </ul>
 				</div>
-				<div class="footer-grid">
-					<h3>Our Support</h3>
-					<ul class="list1">
-					  <li><a href="#">Site Map</a></li>
-					  <li><a href="#">Search Terms</a></li>
-					  <li><a href="#">Advanced Search</a></li>
-					  <li><a href="#">Mobile</a></li>
-					  <li><a href="#">Contact Us</a></li>
-					  <li><a href="#">Mobile</a></li>
-					  <li><a href="#">Addresses</a></li>
-				    </ul>
-				  </div>
-				  <div class="footer-grid">
-					<h3>Newsletter</h3>
-					<p class="footer_desc">Nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat</p>
-					<div class="search_footer">
-			          <input type="text" class="text" value="Insert Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Insert Email';}">
-			          <input type="submit" value="Submit">
-			        </div>
-			        <img src="images/payment.png" class="img-responsive" alt=""/>
-				 </div>
 				 <div class="footer-grid footer-grid_last">
-					<h3>About Us</h3>
+					<h3>Sobre nosotros</h3>
 					<p class="footer_desc">Diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,.</p>
                     <p class="f_text">Phone:  &nbsp;&nbsp;&nbsp;00-250-2131</p>
                     <p class="email">Email: &nbsp;&nbsp;&nbsp;<span>info(at)Surfhouse.com</span></p>	
@@ -529,7 +362,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <div class="footer_bottom">
         	<div class="container">
         		<div class="copy">
-				   <p>&copy; 2014 Template by <a href="http://w3layouts.com" target="_blank"> w3layouts</a></p>
+				   <p>&copy; 2020 by <a href="http://w3layouts.com" target="_blank"> Equipo verde</a></p>
 			    </div>
         	</div>
         </div>
