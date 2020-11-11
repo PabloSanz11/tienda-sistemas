@@ -22,6 +22,9 @@
         {
             $respuesta = "SIN PRODUCTOS EN EL CARRITO";
         }
+    }else
+    {
+        header('Location: php/add-carrito.php');
     }
 
 ?>
@@ -99,7 +102,11 @@
 				<ul class="quick_access">
 				   	<li class="view_cart"><a href="index.php">Página Principal</a></li>
 				   	<div class='clearfix'></div>
-				</ul>
+                </ul>
+                <form class="search" action="busquedas.php" method="get">
+					<input type="text" name="keyword" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
+					<input type="submit" value="">
+				</form>
 		  </div>
 		</div>
     </div>

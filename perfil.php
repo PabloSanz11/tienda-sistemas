@@ -1,3 +1,32 @@
+<?php 
+	include('php/consultas.php');
+  session_start();
+  
+	if(isset($_SESSION['validacion']))
+  {
+		$idCliente = $_SESSION['idCliente'];
+    $saludo = explode(" ",$_SESSION['nombre']);
+    $cliente = obtenerCliente($idCliente);
+
+    while($rm = mysqli_fetch_array($cliente))
+    {
+      $nombre = utf8_encode($rm['nombre']);
+      $foto = "php/".$rm['foto'];
+      $fechaNac = $rm['fechaNac'];
+      $correo = $rm['correo'];
+      $numTelefono = $rm['numTelefono'];
+      $contrasena = $rm['contrasena'];
+      $domicilio = utf8_encode($rm['domicilio']);
+    }
+
+    $historial = historialPedidos($idCliente);
+    $fechaPedido = array("","");
+    $subTotal = 0;
+  }else
+  {
+    header('Location: php/add-carrito.php');
+  }
+?>
 <!DOCTYPE HTML>
 <html lang="es-419">
 <html>
@@ -8,8 +37,6 @@
 <title>account settings - Bootdey.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-
-
 <link href="css/perfil.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
@@ -142,6 +169,16 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     padding: 0.85rem 1.5rem;
     border-color: rgba(24,28,33,0.03) !important;
 }
+.img-perfi
+{
+  width: 140px;
+	height: 140px;
+	background-color: #363f3b;
+	box-shadow: 0 0 0px 5px #beccc5;
+	margin-top: 2em;
+  border-radius: 24em;
+  margin-left:20em;
+}
 
 
 
@@ -154,59 +191,52 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
    <div class="single">
 	<div class="container">
 		<div class="header-top">
-      		 <div class="logo">
-				<a href="index.php"><img src="images/logo.png" alt=""/></a>
-			 </div>
+      		<div class="logo">
+           <a href="index.php"><img src="images/logo-tienda.png" alt="" style="width:6em; margin-right:2em;"/></a><br><br>
+			    </div>
 		   <div class="header_right">
 			 <ul class="social">
 				<li><a href=""> <i class="fb"> </i> </a></li>
 				<li><a href=""><i class="tw"> </i> </a></li>
 				<li><a href=""><i class="utube"> </i> </a></li>
-				<li><a href=""><i class="pin"> </i> </a></li>
 				<li><a href=""><i class="instagram"> </i> </a></li>
 			 </ul>
 		    <div class="lang_list">
 			  <div class="lang_list">
-			  <select tabindex="4" class="dropdown">
-				<option value="" class="label" value="">Sesión</option>
-				<option value="1">Cerrar</option>
-			  </select>
    			</div>
 			<div class="clearfix"></div>
           </div>
           <div class="clearfix"></div>
 		 </div>  
 		 <div class="apparel_box">
-			<ul class="login">
-				<li class="login_text"><a href="login.html">Iniciar Sesión</a></li>
-				<div class='clearfix'></div>
-		    </ul>
-		    <div class="cart_bg">
-			  <ul class="cart">
-				<i class="cart_icon"></i><p class="cart_desc">$1459.50<br><span class="yellow">2 items</span></p>
-			    <div class='clearfix'></div>
-			  </ul>
-			  <ul class="product_control_buttons">
-				 <li><a href="#"><img src="images/close.png" alt=""/></a></li>
-				 <li><a href="#">Edit</a></li>
-			  </ul>
-		      <div class='clearfix'></div>
-			 </div>
-			 <ul class="quick_access">
-				<li class="view_cart"><a href="checkout.php">Ver carrito</a></li>
-				<div class='clearfix'></div>
-		     </ul>
-			<div class="search">
-			   <input type="text" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
-			   <input type="submit" value="">
-			</div>
+     <ul class="login">
+				<?php if(isset($_SESSION['validacion']))
+      				{
+				?>
+				   		<li class="login_text"><a href="perfil.php"><?php echo $saludo[0];?></a></li>
+				<?php
+					}else
+					{?>
+						<li class="login_text"><a href="login.html">Iniciar Sesión</a></li>
+					<?php
+					}?>
+				   	<div class='clearfix'></div>
+				</ul>
+				<ul class="quick_access">
+				   	<li class="view_cart"><a href="checkout.php">Ver carrito</a></li>
+				   	<div class='clearfix'></div>
+			</ul>
+      <form class="search" action="busquedas.php" method="get">
+				<input type="text" name="keyword" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
+				<input type="submit" value="">
+			</form>
 		  </div>
 		</div>
     </div>
     <div class="main" style="background: white;">
 	   <div class="container light-style flex-grow-1 container-p-y">
 
-    <h4 class="font-weight-bold py-3 mb-4">
+    <h4 class="font-weight-bold py-3 mb-4" style="font-size:1.6em;"><br>
       Mi Perfil
     </h4>
 
@@ -215,50 +245,38 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
         <div class="col-md-3 pt-0">
           <div class="list-group list-group-flush account-settings-links">
             <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">General</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
             <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Redes Sociales</a>
             <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-connections">Pedidos</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">Notificaciones</a>
           </div>
         </div>
         <div class="col-md-9">
           <div class="tab-content">
             <div class="tab-pane fade active show" id="account-general">
-
               <div class="card-body media align-items-center">
-                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-80">
+                <img src="<?php echo $foto;?>" class="img-perfi">
                 <div class="media-body ml-4">
-                  <label class="btn btn-outline-primary">
-                    Subir Una Nueva Foto
-                    <input type="file" class="account-settings-fileinput">
-                  </label> &nbsp;
-                  <button type="button" class="btn btn-default md-btn-flat">Quitar</button>
-
-                  <div class="text-light small mt-1">Se Permite JPG, GIF o PNG. Tamaño Máximo 800K</div>
                 </div>
               </div>
               <hr class="border-light m-0">
 
               <div class="card-body">
                 <div class="form-group">
-                  <label class="form-label">Nombre de Usuario</label>
-                  <input type="text" class="form-control mb-1" value="pepitopp99">
-                </div>
-                <div class="form-group">
                   <label class="form-label">Nombre</label>
-                  <input type="text" class="form-control" value="Pepito">
+                  <input type="text" class="form-control" value="<?php echo $nombre;?>">
                 </div>
                 <div class="form-group">
-                  <label class="form-label">E-mail</label>
-                  <input type="text" class="form-control mb-1" value="pepito99@mail.com">
-                  <div class="alert alert-warning mt-3"><br>
-                    <a href="php/logout.php">Cerrar Sesión</a>
-                  </div>
+                  <label class="form-label">Correo Electronico</label>
+                  <input type="text" class="form-control mb-1" value="<?php echo $correo;?>">
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Compania</label>
-                  <input type="text" class="form-control" value="UAQ.">
+                  <label class="form-label">Número de Celular</label>
+                  <input type="text" class="form-control" value="<?php echo $numTelefono;?>">
                 </div>
+                <div class="form-group">
+                  <label class="form-label">Domicilio</label>
+                  <input type="text" class="form-control" value="<?php echo $domicilio;?>">
+                </div>
+                <a href="php/logout.php" class="btn btn-primary">Cerrar Sesión</a>
               </div>
 
             </div>
@@ -349,26 +367,42 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
               </div>
             </div>
             <div class="tab-pane fade" id="account-connections">
-              <div class="card-body">
-                <button type="button" class="btn btn-twitter">Conectar con <strong>Twitter</strong></button>
-              </div>
-              <hr class="border-light m-0">
-              <div class="card-body">
-                <h5 class="mb-2">
-                  <a href="javascript:void(0)" class="float-right text-muted text-tiny"><i class="ion ion-md-close"></i> Quitar</a>
-                  <i class="ion ion-logo-google text-google"></i>
-                  Estás conectado con Google:
-                </h5>
-                manrivs@mail.com
-              </div>
-              <hr class="border-light m-0">
-              <div class="card-body">
-                <button type="button" class="btn btn-facebook">Conectar con <strong>Facebook</strong></button>
-              </div>
-              <hr class="border-light m-0">
-              <div class="card-body">
-                <button type="button" class="btn btn-instagram">Conectar con <strong>Instagram</strong></button>
-              </div>
+              <br>
+              <p style="font-size:1.6em; margin-left:2em;">Pedidos Realizados</p><br><br>
+              <table>
+                <tr>
+                  <th style="text-align:center;">Producto</th>
+                  <th style="text-align:center;">Datos Generales</th>
+                  <th style="text-align:center;">Costo por producto</th>
+                </tr>
+                <?php while($ri = mysqli_fetch_array($historial)):
+                          $subTotal = $subTotal + $ri['PRECIO'];    
+                ?>
+                <tr>
+                  <td class="white" style="width: 33%;"><img style="width:8em;" src="<?php echo "php/".$ri['foto'];?>" alt=""></td>
+                  <td class="white" style="width: 33%;">
+                    <p class="title"><?php echo $ri['nombre'];?></p><br>
+                    <p class="quick_desc" style="color:#363434;">Fecha de Pedido: <?php echo $ri['fechaPedido'];?></p>
+                    <p class="quick_desc" style="color:#363434;">Fecha de Entrega: <?php echo $ri['fechaEntrega'];?></p><br><br>
+                    <p class="quick_desc" style="text-align:justify;color:#363434;"><?php echo utf8_encode($ri['descripcion']);?>
+                  </td>
+                  <td class="white" style="width: 33%; text-aling:center"><p style="color:#0e87ab">$ <?php echo $ri['PRECIO'];?> MXN</p></td>
+                </tr>
+                <?php endwhile;?>
+              </table>
+              <table>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th style="text-align:center;">Total</th>
+                </tr>
+                <tr>
+                  <td class="white" style="width: 33%;"></td>
+                  <td class="white" style="width: 33%;"></td>
+                  <td class="white" style="width: 33%; text-aling:center"><p style="color:#0e87ab">$ <?php echo $subTotal;?> MXN</p></td>
+                </tr>
+              </table>
+              <br><br>
             </div>
             <div class="tab-pane fade" id="account-notifications">
               <div class="card-body pb-2">
@@ -412,11 +446,6 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="text-right mt-3">
-      <button type="button" class="btn btn-primary">Guardar Cambios</button>&nbsp;
-      <button type="button" class="btn btn-default">Cancelar</button>
     </div>
 
   </div>

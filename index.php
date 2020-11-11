@@ -2,7 +2,7 @@
 <html>
 <head>
 <?php 
-	include('php/conexion.php'); 
+	include('php/consultas.php'); 
 	session_start();
 
 	if(isset($_SESSION['validacion']))
@@ -41,7 +41,7 @@
 					closeBtnInside: true,
 					preloader: false,
 					midClick: true,
-					removalDelay: 300,
+					removalDelay: 900,
 					mainClass: 'my-mfp-zoom-in'
 			});
 		});
@@ -99,10 +99,10 @@
 									}?>
 				   		 			<div class='clearfix'></div>
 				   		 		</ul>
-				   		 		<div class="search">
-					  			   <input type="text" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
+				   		 		<form class="search" action="busquedas.php" method="get">
+					  			   <input type="text" name="keyword" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
 								   <input type="submit" value="">
-					  			</div>
+					  			</form>
 					  			<div class="welcome_box">
 					  				<h2>Bienvenido</h2>
 					  				<p><?php echo $Bienvenido;?></p>
@@ -144,10 +144,10 @@
 									}?>
 				   		 			<div class='clearfix'></div>
 				   		 		</ul>
-				   		 		<div class="search">
-					  			   <input type="text" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
+				   		 		<form class="search" action="busquedas.php" method="get">
+					  			   <input type="text" name="keyword" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
 								   <input type="submit" value="">
-					  			</div>
+					  			</form>
 					  			<div class="welcome_box">
 					  				<h2>Bienvenido</h2>
 					  				<p><?php echo $Bienvenido;?></p>
@@ -188,10 +188,10 @@
 									}?>
 				   		 			<div class='clearfix'></div>
 				   		 		</ul>
-				   		 		<div class="search">
-					  			   <input type="text" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
+				   		 		<form class="search" action="busquedas.php" method="get">
+					  			   <input type="text" name="keyword" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
 								   <input type="submit" value="">
-					  			</div>
+					  			</form>
 					  			<div class="welcome_box">
 					  				<h2>Bienvenido</h2>
 					  				<p><?php echo $Bienvenido;?></p>
@@ -227,24 +227,24 @@
 				   	  	<h3 class="menu_head">Menu</h3>
 				   	     <ul class="nav">
 					   	  	<li><a href="perfil.php">Perfil</a></li>
-					   	  	<li><a href="apparel.html">Productos</a></li>
+					   	  	<li><a href="productos.php">Productos</a></li>
 							<?php if(isset($_SESSION['validacion'])){?>
 					   	  	<li><a href="checkout.php">Carrito</a></li>
 							<?php }else{?>
 								<li><a href="php/add-carrito.php">Carrito</a></li>
 							<?php }?>
-					   	  	<li><a href="apparel.html">Pedidos</a></li>
+					   	  	<li><a href="perfil.php">Pedidos</a></li>
 					   	 </ul>
 			   	    </div>
 			   	    <div class="category">
 			   	    	<h3 class="menu_head">Categorias</h3>
 			   	    	<ul class="category_nav">
 					   	  	<li><a href="#"></a></li>
-					   	  	<li><a href="#">cuerda</a></li>
-					   	  	<li><a href="#">viento </a></li>
-					   	  	<li><a href="#">percusión</a></li>
-					   	  	<li><a href="#">idiófonos</a></li>
-					   	  	<li><a href="#">electrófonos</a></li>
+					   	  	<li><a href="categorias.php?categoria=cuerda">cuerda</a></li>
+					   	  	<li><a href="categorias.php?categoria=viento">viento </a></li>
+					   	  	<li><a href="categorias.php?categoria=percusion">percusión</a></li>
+					   	  	<li><a href="categorias.php?categoria=idiofonos">idiófonos</a></li>
+					   	  	<li><a href="categorias.php?categoria=electrofonos">electrófonos</a></li>
 					   	</ul>
 			   	    </div>
 			   	    <div class="side_banner">
@@ -257,7 +257,7 @@
 			   <div class="col-md-9">
 			   <h3 class="m_1">Nuevos Articulos</h3>
 				<?php  //PHP---------------------------------------->
-					 	$sql = "SELECT * FROM productos ORDER BY idProducto DESC";
+					 	$sql = "SELECT * FROM productos ORDER BY idProducto DESC LIMIT 6";
 						$query = consulta($sql);
 						while($rU = mysqli_fetch_array($query)):
 							$ruta = "php/".$rU['foto'];
@@ -268,10 +268,10 @@
 					    <form action="single.php" method="post">
 						   <div class="inner_content clearfix">
 							<div class="product_image">
-								<img src="<?php echo $ruta?>" class="img-responsive" alt=""/>
+								<img src="<?php echo $ruta?>" class="img-responsive" class="etalage_thumb_image" alt="" style="height:17em"/>
 								<div class="product_container">
 								   <div class="cart-left">
-									 <p class="title"><?php echo $rU['nombre'];?></p>
+									 <p class="title"><?php echo utf8_encode($rU['nombre']);?></p>
 								   </div><br>
 								   <div class="price">$<?php echo $rU['precio'];?> MXN</div><hr><hr>
 								   	<input type="number" style="display:none;" name="idProducto" value="<?php echo $rU['idProducto'];?>">
@@ -292,8 +292,7 @@
 			   </div>
 			   <h3 class="m_2">Productos más vendidos</h3>
 			   <?php  //PHP---------------------------------------->
-					 	$sql = "SELECT * FROM productos ORDER BY idProducto DESC LIMIT 3";
-						$query = consulta($sql);
+						$query = masVendidos();
 						while($rU = mysqli_fetch_array($query)):
 							$ruta = "php/".$rU['foto'];
 				?>
@@ -303,7 +302,7 @@
 					    <form action="single.php" method="post">
 						   <div class="inner_content clearfix">
 							<div class="product_image">
-								<img src="<?php echo $ruta?>" class="img-responsive" alt=""/>
+								<img src="<?php echo $ruta?>" class="img-responsive" alt="" style="height:17em"/>
 								<div class="product_container">
 								   <div class="cart-left">
 									 <p class="title"><?php echo $rU['nombre'];?></p>
@@ -326,7 +325,7 @@
 			   </div>
 			    <h3 class="m_2">Recomendado</h3>
 				<?php  //PHP---------------------------------------->
-					 	$sql = "SELECT * FROM productos ORDER BY idProducto DESC LIMIT 3";
+					 	$sql = "SELECT * FROM productos WHERE categoria LIKE 'viento' ORDER BY idProducto DESC LIMIT 3";
 						$query = consulta($sql);
 						while($rU = mysqli_fetch_array($query)):
 							$ruta = "php/".$rU['foto'];
@@ -337,7 +336,7 @@
 					    <form action="single.php" method="post">
 						   <div class="inner_content clearfix">
 							<div class="product_image">
-								<img src="<?php echo $ruta?>" class="img-responsive" alt=""/>
+								<img src="<?php echo $ruta?>" class="img-responsive" alt="" style="height:17em"/>
 								<div class="product_container">
 								   <div class="cart-left">
 									 <p class="title"><?php echo $rU['nombre'];?></p>

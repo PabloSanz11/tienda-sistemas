@@ -1,38 +1,25 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<?php 
+<?php
 	include('php/consultas.php');
 	session_start();
+
 	if(isset($_SESSION['validacion']))
     {
 		$idCliente = $_SESSION['idCliente'];
 		$saludo = explode(" ",$_SESSION['nombre']);
 	}
-
-	if(isset($_POST['idProducto']))
-	{
-		$idProducto = $_POST['idProducto'];
-		$foto = $_POST['foto'];
-		$query = productoEspecifico($idProducto);
-		while($rU = mysqli_fetch_array($query))
-		{
-			$nombre = utf8_encode($rU['nombre']);
-			$descripcion = utf8_encode($rU['descripcion']);
-			$categoria = utf8_encode($rU['categoria']);
-			$cantidad = $rU['cantidad'];
-			$ruta = "php/".$rU['foto'];
-			$precio = $rU['precio'];
-		}
-	}
 ?>
-<title>Producto</title>
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+<title>Productos</title>
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
 <!-- Custom Theme files -->
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <link href="css/component.css" rel='stylesheet' type='text/css' />
+
 <!-- Custom Theme files -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -58,48 +45,13 @@
 			});
 		});
 		</script>
-<!----details-product-slider--->
-<!-- Include the Etalage files -->
-<link rel="stylesheet" href="css/etalage.css">
-<script src="js/jquery.etalage.min.js"></script>
-				<!-- Include the Etalage files -->
-				<script>
-						jQuery(document).ready(function($){
-			
-							$('#etalage').etalage({
-								thumb_image_width: 300,
-								thumb_image_height: 400,
-								
-								show_hint: true,
-								click_callback: function(image_anchor, instance_id){
-									
-								}
-							});
-							// This is for the dropdown list example:
-							$('.dropdownlist').change(function(){
-								etalage_show( $(this).find('option:selected').attr('class') );
-							});
-
-					});
-				</script>
-				<!----//details-product-slider--->	
-<script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
-		    <script type="text/javascript">
-			    $(document).ready(function () {
-			        $('#horizontalTab').easyResponsiveTabs({
-			            type: 'default', //Types: default, vertical, accordion           
-			            width: 'auto', //auto or any width like 600px
-			            fit: true   // 100% fit in a container
-			        });
-			    });
-			   </script>	
 </head>
 <body>
-  <div class="single">
+  <div class="apparel">
 	<div class="container">
 		<div class="header-top">
       		 <div class="logo">
-				<a href="index.php"><img src="images/logo-tienda.png" alt="" style="width:6em"/></a>
+			   <a href="index.php"><img src="images/logo-tienda.png" alt="" style="width:6em"/></a>
 			 </div>
 		   <div class="header_right">
 			 <ul class="social">
@@ -108,7 +60,7 @@
 				<li><a href=""><i class="utube"> </i> </a></li>
 				<li><a href=""><i class="instagram"> </i> </a></li>
 			 </ul>
-		    <div class="lang_list">
+		     <div class="lang_list">
    			</div>
 			<div class="clearfix"></div>
           </div>
@@ -132,6 +84,10 @@
 				   	<li class="view_cart"><a href="checkout.php">Ver carrito</a></li>
 				   	<div class='clearfix'></div>
 				</ul>
+				<form class="search" action="busquedas.php" method="get">
+					<input type="text" name="keyword" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
+					<input type="submit" value="">
+				</form>
 		  </div>
 		</div>
     </div>
@@ -143,17 +99,20 @@
 					<div class="menu_box"><br>
 				   	  	<h3 class="menu_head">Menu</h3>
 				   	     <ul class="nav">
-					   	  	<li><a href="index.php">Página Principal</a></li>
-					   	  	<li><a href="perfil.php">Perfil</a></li>
+							<li><a href="perfil.php">Perfil</a></li>
 					   	  	<li><a href="productos.php">Productos</a></li>
+							<?php if(isset($_SESSION['validacion'])){?>
 					   	  	<li><a href="checkout.php">Carrito</a></li>
+							<?php }else{?>
+								<li><a href="php/add-carrito.php">Carrito</a></li>
+							<?php }?>
 					   	  	<li><a href="perfil.php">Pedidos</a></li>
 					   	 </ul>
 			   	    </div>
 			   	    <div class="category">
 			   	    	<h3 class="menu_head">Categorias</h3>
 			   	    	<ul class="category_nav">
-						   <li><a href="#"></a></li>
+					   	  	<li><a href="#"></a></li>
 					   	  	<li><a href="categorias.php?categoria=cuerda">cuerda</a></li>
 					   	  	<li><a href="categorias.php?categoria=viento">viento </a></li>
 					   	  	<li><a href="categorias.php?categoria=percusion">percusión</a></li>
@@ -161,130 +120,87 @@
 					   	  	<li><a href="categorias.php?categoria=electrofonos">electrófonos</a></li>
 					   	</ul>
 			   	    </div>
+				     <div class="side_banner">
+					   <div class="banner_img"><img src="images/gui.jpg" class="img-responsive" alt=""/></div>
+					   <div class="banner_holder">
+						  <h3 style="color: white;">Now <br> is <br> Open!</h3>
+					   </div>
+				     </div>
 			  </div>
 			  <div class="col-md-9">
 			    <div class="dreamcrub">
-				<ul class="breadcrumbs">
+			   	 <ul class="breadcrumbs">
                     <li class="home">
                        <a href="index.php" title="Go to Home Page">Inicio</a>&nbsp;
                        <span>&gt;</span>
-					</li>
-                    <li class="home">&nbsp;
-						<?php echo $categoria;?>&nbsp;
-                        <span>&gt;</span>&nbsp;
-					</li>
-					<li class="women">
-						<?php echo $nombre;?>
                     </li>
-                </ul>
+                    <li class="home">&nbsp;
+                        Productos&nbsp;
+                        <span>&gt;</span>&nbsp;
+                    </li>
+                    <li class="women">
+                        Todos los productos
+                    </li>
+               </ul>
                 <ul class="previous">
-                	<li><a href="index.php">Volver a la Página anterior</a></li>
+                	<li><a href="index.php">Volver a la página de inicio</a></li>
                 </ul>
                 <div class="clearfix"></div>
 			   </div>
-			   <div class="singel_right">
-			     <div class="labout span_1_of_a1">
-				<!-- start product_slider -->
-				<ul id="etalage">
-							<li>
-								<a href="#">
-									<img class="etalage_thumb_image" src="<?php echo $foto?>" class="img-responsive" />
-									<img class="etalage_source_image" src="<?php echo $foto?>" class="img-responsive" />
-								</a>
-							</li>
-						</ul>
-					<!-- end product_slider -->
-			  </div>
-			  <div class="cont1 span_2_of_a1">
-				<h1><?php echo $nombre;?></h1>
-			    <div class="price_single">
-				  <span class="actual">$<?php echo $precio;?></span>
-				</div>
-				<h2 class="quick">Descripción:</h2>
-				<p class="quick_desc" style="text-align:justify;"><?php echo $descripcion;?></p>
-				<form action="php/add-carrito.php" method="post">
-				<ul class="product-qty">
-				   <span>Cantidad:</span>
-				   <?php
-				 	if($cantidad > 0):
-				   ?>
-				   <select name="cantidad">
-				   	<?php for ($i=0; $i < $cantidad; $i++):?>
-					 <option><?php echo $i + 1;?></option>
-					   <?php endfor;
-					endif;?>
-				   </select>
-				   <?php if($cantidad == 0): ?>
-					<p class="quick_desc" style="color:red;font-size:1.1em;"><b>PRODUCTO SIN EXISTENCIAS</b></p>
-				   <?php endif; ?>
-			    </ul><br>
-			    <div class="btn_form">
-					<?php if($cantidad > 0): ?>
-					<input style="display:none;" type="text" name="idProducto" value="<?php echo $idProducto;?>">
-					<input style="display:none;" type="text" name="foto" value="<?php echo $ruta;?>">
-					<input style="display:none;" type="text" name="total" value="<?php echo $precio;?>">
-					<input class="add-car" type="submit" value="Agregar al Carrito" title="">
-					<?php endif; ?>
-				</div>
-				</form>
-			</div>
-			<div class="clearfix"></div>
-		   </div>
-		   <div class="sap_tabs">	
-				     <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
-						  <ul class="resp-tabs-list">
-						  	  <li class="resp-tab-item" aria-controls="tab_item-0" role="tab"><span>Información Adicional</span></li>
-							  <div class="clear"></div>
-						  </ul>				  	 
-							<div class="resp-tabs-container">
-							    <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
-									<div class="facts">
-									  <ul class="tab_list" style="align-text:center;">
-									  	<li><a href="#"><?php echo $descripcion;?></a></li>
-									  </ul>           
-							        </div>
-							     </div>
-							 </div>
-					      </div>
-					 </div>	
-					 <h3 class="like">Productos Relacionados</h3>
-				     <ul id="flexiselDemo3">
-					<?php
-						$query = productosRelacionados($categoria);
+			   <div class="mens-toolbar">
+    	        <ul class="women_pagenation dc_paginationA dc_paginationA06">
+			     <li><a href="#" class="previous">Página:</a></li>
+			     <li class="active"><a href="#">1</a></li>
+			     <li><a href="#">2</a></li>
+		  	    </ul>
+                <div class="clearfix"></div>		
+		        </div>		
+				<div id="cbp-vm" class="cbp-vm-switcher cbp-vm-view-list">
+					<div class="cbp-vm-options">
+					</div>
+					<div class="pages">   
+       	   </div>
+					<div class="clearfix"></div>
+					<ul>
+					<?php  //PHP---------------------------------------->
+					 	$sql = "SELECT * FROM productos ORDER BY idProducto DESC;";
+						$query = consulta($sql);
 						while($rU = mysqli_fetch_array($query)):
 							$ruta = "php/".$rU['foto'];
 					?>
-						<li><img src="<?php echo $ruta;?>" style="height:15em"/><div class="grid-flex"><a href="#"></a></li>
-					<?php endwhile;?>
-					 </ul>
-				    <script type="text/javascript">
-					 $(window).load(function() {
-						$("#flexiselDemo3").flexisel({
-							visibleItems: 3,
-							animationSpeed: 1000,
-							autoPlay: true,
-							autoPlaySpeed: 3000,    		
-							pauseOnHover: true,
-							enableResponsiveBreakpoints: true,
-					    	responsiveBreakpoints: { 
-					    		portrait: { 
-					    			changePoint:480,
-					    			visibleItems: 1
-					    		}, 
-					    		landscape: { 
-					    			changePoint:640,
-					    			visibleItems: 2
-					    		},
-					    		tablet: { 
-					    			changePoint:768,
-					    			visibleItems: 3
-					    		}
-					    	}
-					    });
-					    
-					});
-				   </script>
-				   <script type="text/javascript" src="js/jquery.flexisel.js"></script>
+					  	<li>
+						  <form action="single.php" method="post">
+							<a class="cbp-vm-image" href="#">
+							 <div class="view view-first">
+					   		  <div class="inner_content clearfix">
+								<div class="product_image">
+									<img src="<?php echo $ruta;?>" class="img-responsive" alt=""/>
+									<div class="product_container">
+									   <div class="cart-left">
+									   		<div class="price" style="marginleft:5em;">$<?php echo $rU['precio'];?> MXN</div>
+									   </div><br><hr>
+									   <div class="clearfix"></div>
+								     </div>		
+								  </div>
+			                     </div>
+		                      </div>
+							</a>
+							<div class="cbp-vm-details">
+								<p class="title" style="font-size:1.4em;"><?php echo utf8_encode($rU['nombre'])."\n";?></p><br>
+								<?php echo utf8_encode(substr($rU['descripcion'],0,100))."...";?>
+							</div>							
+								<input type="number" style="display:none;" name="idProducto" value="<?php echo $rU['idProducto'];?>">
+								<input type="text" style="display:none;" name="foto" value="<?php echo $ruta;?>">
+								<input class="cbp-vm-icon cbp-vm-add" style="border:none;" type="submit" value="Más Información">
+							</form>
+						</li>
+					<?php
+						endwhile;
+					?>
+					</ul>
+				</div>
+				<script src="js/cbpViewModeSwitch.js" type="text/javascript"></script>
+                <script src="js/classie.js" type="text/javascript"></script>
 			</div>
 		 </div>
 		</div>
