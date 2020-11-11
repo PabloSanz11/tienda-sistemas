@@ -169,7 +169,7 @@
         <h1>Su pedido se ha realizado exitosamente</h1>
         <h3>¡Gracias por su preferencia!</h3>
         <img src="https://cdn.pixabay.com/photo/2017/11/12/03/11/emojis-2941412_960_720.png" alt="" style="width:20%"><br><br>
-        <a href="../perfil.php#account-connections" class="add-car">Ver Pedidos</a>
+        <a href="../perfil.php" class="add-car">Ver Pedidos</a>
         <a href="../index.php" class="add-car">Continuar Comprando</a>
 		<?php
 			}elseif($idCliente == 0)

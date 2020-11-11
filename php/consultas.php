@@ -151,6 +151,16 @@
         return $indice[0];
     }
 
+    function historialPedidos($idCliente)
+    {
+        $sql = "SELECT pp.foto, pp.nombre, p.idPedido, p.fechaPedido, p.fechaEntrega , pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        FROM CARRITOS c, pedidos p, productos pp
+        WHERE vigente = FALSE AND comprado = TRUE AND idCliente = '$idCliente' AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
+        $query = consulta($sql);
+
+        return $query;
+    }
+
     function removerInventario($idProducto,$cantidad)
     {   
         $query = productoEspecifico($idProducto);
@@ -187,4 +197,36 @@
         return $query;
     }
 
+    function busquedas($keyword)
+    {
+        //Nombre
+        $sql = "SELECT * FROM productos WHERE nombre LIKE '$keyword%' OR nombre LIKE '%$keyword';";
+        $query = consulta($sql);
+        
+        if(mysqli_num_rows($query) != 0)
+        {
+            return $query;
+        }else
+        {
+            //Categoria
+            $sql = "SELECT * FROM productos WHERE categoria LIKE '$keyword%' OR categoria LIKE '%$keyword';";
+            $query = consulta($sql);
+
+            if(mysqli_num_rows($query) != 0)
+            {
+                return $query;
+            }
+        }
+    }
+
+    function masVendidos()
+    {
+        $sql = "SELECT COUNT(c.idProducto) AS Veces, c.idProducto, p.nombre, p.foto, p.precio 
+        FROM carritos c, productos p
+        where c.comprado = TRUE AND c.idProducto = p.idProducto
+        GROUP BY idProducto
+        order by Veces DESC LIMIT 3;";
+        $query = consulta($sql);
+        return $query;
+    }
 ?>
