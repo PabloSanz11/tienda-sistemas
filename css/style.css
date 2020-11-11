@@ -726,6 +726,8 @@ p.title a:hover{
 	float: right;
 	font-weight: bold;
 	font-size: 0.95em;
+	margin-left: 3em;
+	color:#bb650b;
 }
 span.reducedfrom {
 	text-decoration: line-through;
@@ -1964,6 +1966,63 @@ h4.title {
 	border-bottom: 1px solid #DFDDDD;
 	padding-bottom: 13px;
 	font-family: 'Roboto', sans-serif;
+}
+.cat
+{
+	color: #555;
+	margin-bottom: 0.5em;
+	font-size:1.8em;
+	line-height: 1.2;
+	font-weight: normal;
+	margin-top: 0px;
+	letter-spacing: -1px;
+	text-transform: uppercase;
+	border-bottom: 1px solid #DFDDDD;
+	padding-bottom: 13px;
+	font-family: 'Roboto', sans-serif;
+}
+.white
+{
+    background-color: #ffffff;
+    align-items: center;
+}
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 90%;
+	margin-left: 5%;
+	text-align: justify;
+  }
+  
+  td, th {
+	border: 1px solid #b9b9b900;
+	text-align: center;
+	padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+	background-color: #dddddd;
+  }
+
+.img-perfil
+{
+	width: 122px;
+	height: 122px;
+	background-color: #363f3b;
+	box-shadow: 0 0 0px 5px #03889e ;
+	margin-top: 2em;
+	border-radius: 24em;
+}
+
+.cats
+{
+	color: #333;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: block;
+    padding: 10px 15px;
 }
 p.cart {
 	color:#555;
