@@ -51,8 +51,8 @@
 		{
             $idCarrito = $rU['idCarrito'];
 
-            $insert = "INSERT INTO pedidos (fechaPedido, fechaEntrega, total, idCarrito, idTarjeta, idDireccion)
-                        VALUES ('$fechaCompra','$fechaEntrega','$total','$idCarrito','$idTarjeta','$idDireccion');";
+            $insert = "INSERT INTO pedidos (fechaPedido, fechaEntrega, total, idCarrito, idTarjeta, idDireccion, estado)
+                        VALUES ('$fechaCompra','$fechaEntrega','$total','$idCarrito','$idTarjeta','$idDireccion', 'En curso');";
             $query = consulta($insert);
 
             removerInventario($rU['idProducto'],$rU['cantidad']);

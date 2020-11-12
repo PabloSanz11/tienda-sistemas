@@ -153,14 +153,14 @@
 
     function historialPedidos($idCliente)
     {
-        $sql = "SELECT pp.foto, pp.nombre, p.idPedido, p.fechaPedido, p.fechaEntrega , pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
         FROM CARRITOS c, pedidos p, productos pp
         WHERE vigente = FALSE AND comprado = TRUE AND idCliente = '$idCliente' AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
         $query = consulta($sql);
 
         return $query;
     }
-
+    
     function removerInventario($idProducto,$cantidad)
     {   
         $query = productoEspecifico($idProducto);
@@ -179,7 +179,7 @@
         return $query;
     }
 
-    function sumarInventario($idProducto,$cantidad)
+    function sumarInventario($idProducto,$idPedido,$cantidad)
     {   
         $query = productoEspecifico($idProducto);
         while($rU = mysqli_fetch_array($query))
@@ -194,8 +194,12 @@
                 WHERE idProducto = '$idProducto';";
         $query = consulta($sql);
 
-        return $query;
+        $sql = "UPDATE pedidos
+                SET estado = 'Devuelto'
+                WHERE idPedido = '$idPedido';";
+        $query = consulta($sql);
     }
+
 
     function busquedas($keyword)
     {
