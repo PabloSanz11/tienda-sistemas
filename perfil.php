@@ -368,25 +368,48 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
             </div>
             <div class="tab-pane fade" id="account-connections">
               <br>
-              <p style="font-size:1.6em; margin-left:2em;">Pedidos Realizados</p><br><br>
+              <p style="font-size:1.6em; margin-left:2em;">Historial de Pedidos</p><br><br>
               <table>
                 <tr>
                   <th style="text-align:center;">Producto</th>
                   <th style="text-align:center;">Datos Generales</th>
-                  <th style="text-align:center;">Costo por producto</th>
+                  <th style="text-align:center;">Costo</th>
+                  <th style="text-align:center;">Estado</th>
                 </tr>
                 <?php while($ri = mysqli_fetch_array($historial)):
-                          $subTotal = $subTotal + $ri['PRECIO'];    
+                          $estado = $ri['estado'];   
                 ?>
                 <tr>
-                  <td class="white" style="width: 33%;"><img style="width:8em;" src="<?php echo "php/".$ri['foto'];?>" alt=""></td>
-                  <td class="white" style="width: 33%;">
+                  <td class="white" style="width: 25%;"><img style="width:8em;" src="<?php echo "php/".$ri['foto'];?>" alt=""></td>
+                  <td class="white" style="width: 25%;">
                     <p class="title"><?php echo $ri['nombre'];?></p><br>
-                    <p class="quick_desc" style="color:#363434;">Fecha de Pedido: <?php echo $ri['fechaPedido'];?></p>
-                    <p class="quick_desc" style="color:#363434;">Fecha de Entrega: <?php echo $ri['fechaEntrega'];?></p><br><br>
+                    <p class="quick_desc" style="color:#363434;">Pedido Realizado el <?php echo $ri['fechaPedido'];?></p>
+                    <p class="quick_desc" style="color:#363434;"></p><br><br>
                     <p class="quick_desc" style="text-align:justify;color:#363434;"><?php echo utf8_encode($ri['descripcion']);?>
                   </td>
-                  <td class="white" style="width: 33%; text-aling:center"><p style="color:#0e87ab">$ <?php echo $ri['PRECIO'];?> MXN</p></td>
+                  <td class="white" style="width: 25%; text-aling:center"><p style="color:#0e87ab">$ <?php echo $ri['PRECIO'];?> MXN</p></td>
+                  <td class="white">
+                    <?php if($estado == "En curso"){ $subTotal = $subTotal + $ri['PRECIO'];?>
+                      <p>En Curso<br>Se Entrega el <br><br> <?php echo $ri['fechaEntrega'];?></p>
+                      <form action="php/cancelar.php" method="post">
+                        <input style="display:none;" type="number" name="idPedido" value="<?php echo $ri['idPedido'];?>">
+                        <input style="display:none;" type="number" name="idProducto" value="<?php echo $ri['idProducto'];?>">
+                        <input style="display:none;" type="number" name="cantidad" value="<?php echo $ri['cantidad'];?>"><br>
+                        <input class="eliminar" type="submit" value="Cancelar Pedido">
+                      </form>
+                    
+                    <?php }elseif ($estado == "Entregado") { $subTotal = $subTotal + $ri['PRECIO'];?>
+                      <p>Entregado<br>Entregado el <br><br> <?php echo $ri['fechaEntrega'];?></p>
+                      <form action="php/cancelar.php" method="post">
+                        <input style="display:none;" type="number" name="idPedido" value="<?php echo $ri['idPedido'];?>">
+                        <input style="display:none;" type="number" name="idProducto" value="<?php echo $ri['idProducto'];?>">
+                        <input style="display:none;" type="number" name="cantidad" value="<?php echo $ri['cantidad'];?>"><br>
+                        <input class="eliminar" type="submit" value="Devolver">
+                      </form>
+                    <?php }elseif ($estado == "Devuelto") {?>
+                      <p>Producto Devuelto</p>
+                    <?php }?>
+                  </td>
                 </tr>
                 <?php endwhile;?>
               </table>
@@ -394,7 +417,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
                 <tr>
                   <th></th>
                   <th></th>
-                  <th style="text-align:center;">Total</th>
+                  <th style="text-align:center;">Total <br>(Sin contar Devoluciones)</th>
                 </tr>
                 <tr>
                   <td class="white" style="width: 33%;"></td>
@@ -523,4 +546,27 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
         	</div>
         </div>
 </body>
-</html>		
+</html>
+<style>
+.eliminar
+{
+  background:#620606;
+	padding:6px 8px;
+	cursor: pointer;
+  color:#fff;
+  border-style:none;
+	outline: none;
+	line-height: 1.5em;
+	text-transform: uppercase;
+	font-size: 0.8125em;
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+}
+
+.eliminar:hover{
+	background:#cb2027;
+}
+</style>
