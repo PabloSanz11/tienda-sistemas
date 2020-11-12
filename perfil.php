@@ -382,7 +382,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
                 <tr>
                   <td class="white" style="width: 25%;"><img style="width:8em;" src="<?php echo "php/".$ri['foto'];?>" alt=""></td>
                   <td class="white" style="width: 25%;">
-                    <p class="title"><?php echo $ri['nombre'];?></p><br>
+                    <p class="title"><?php echo utf8_encode($ri['nombre']);?></p><br>
                     <p class="quick_desc" style="color:#363434;">Pedido Realizado el <?php echo $ri['fechaPedido'];?></p>
                     <p class="quick_desc" style="color:#363434;"></p><br><br>
                     <p class="quick_desc" style="text-align:justify;color:#363434;"><?php echo utf8_encode($ri['descripcion']);?>
