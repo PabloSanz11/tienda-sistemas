@@ -339,7 +339,7 @@
 								<img src="<?php echo $ruta?>" class="img-responsive" alt="" style="height:17em"/>
 								<div class="product_container">
 								   <div class="cart-left">
-									 <p class="title"><?php echo $rU['nombre'];?></p>
+									 <p class="title"><?php echo utf8_encode($rU['nombre']);?></p>
 								   </div><br>
 								   <div class="price">$<?php echo $rU['precio'];?> MXN</div><hr><hr>
 								   	<input type="number" style="display:none;" name="idProducto" value="<?php echo $rU['idProducto'];?>">
