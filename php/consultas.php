@@ -9,6 +9,41 @@
         return $query;
     }
 
+    function obtenerClientes()
+    {
+        $sql = "SELECT * FROM clientes;";
+        $query = consulta($sql);
+        return $query;
+    }
+
+    function obtenerEmpleados()
+    {
+        $sql = "SELECT * FROM empleados;";
+        $query = consulta($sql);
+        return $query;
+    }
+
+    function obtenerProveedores()
+    {
+        $sql = "SELECT * FROM proveedores;";
+        $query = consulta($sql);
+        return $query;
+    }
+
+    function obtenerProductos()
+    {
+        $sql = "SELECT * FROM productos;";
+        $query = consulta($sql);
+        return $query;
+    }
+
+    function obtenerPedidos()
+    {
+        $sql = "SELECT * FROM pedidos;";
+        $query = consulta($sql);
+        return $query;
+    }
+
     function productoEspecifico($idProducto)
     {
         $sql = "SELECT * FROM productos WHERE idProducto = '$idProducto';";
