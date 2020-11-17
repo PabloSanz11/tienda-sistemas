@@ -604,7 +604,6 @@ function showGraph(filtro)
         
       }else if(filtro == "semana")
       {
-        datosInf = ["Lun","Mar","Mie","Jue","Vie","Sab","Dom"];
         datosBD = [0,0,0,0,0,0,0];
         var dia = fecha.getDate();
         var days = [1,2,3,4,5,6,0];
@@ -627,6 +626,7 @@ function showGraph(filtro)
 
         var lunes = (dia - restar) + 1;
         var domingo = (dia + sumar) + 1;
+        datosInf = ["Lunes "+lunes,"Martes "+(lunes+1),"Miercoles "+(lunes+2),"Jueves "+(lunes+3),"Viernes "+(lunes+4),"Sabado "+(lunes+5),"Domingo "+domingo];
 
         for(var i in data)
         {
@@ -639,9 +639,17 @@ function showGraph(filtro)
                 datosBD[indice] = data[i].vendidos;
                 contador++;
               }
+              console.log(m);
               indice++;
             }
+
+            indice = 0;
           }
+        }
+
+        for (let index = 0; index < datosBD.length; index++) {
+          console.log(index + ": " + datosBD[index]);
+          
         }
       }else if(filtro == "ano")
       {
@@ -665,7 +673,7 @@ function showGraph(filtro)
        datasets: [
                   {
                     label: 'Productos Vendidos',
-                    lineTension: 0.3,
+                    lineTension: 1,
                     backgroundColor: '#36b9cc',
                     borderColor: "rgba(78, 115, 223, 1)",
                     hoverBackgroundColor: '#2c9faf',
