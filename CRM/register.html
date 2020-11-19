@@ -17,7 +17,36 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  <style>
+  input[type="file"]{
+    display:block;
+  }
+  #lab-foto{
+    color:white;
+    height:60px;
+    width: 250px;
+    background-color: #f5af09;
+    margin:auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius: 25px;
+    
+  }
 
+  #lab-foto:hover{
+    background-color:#f0951d;
+    cursor:pointer;
+    transition:0.2s;
+  }
+</style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -32,31 +61,36 @@
           <div class="col-lg-7">
             <div class="p-5">
               <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                <h1 class="h4 text-gray-900 mb-4">Crear cuenta para empleado</h1>
               </div>
-              <form class="user">
+              <form class="user" action="php/registro.php" method="POST" enctype="multipart/form-data">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name">
+                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Ingresar nombre" name="nombre" required>
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name">
+                    <input type="tel" class="form-control form-control-user" id="exampleLastName" placeholder="Ingresar teléfono" name="telefono" required>
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address">
+                  <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Ingresar correo electrónico" name="correo" required>
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Contraseña" name="contrasena" required>
                   </div>
                   <div class="col-sm-6">
-                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repeat Password">
+                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repetir contraseña" name="contrasena-2" required>
                   </div>
                 </div>
-                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                  Register Account
-                </a>
+                <div class="form-group">
+                  <input type="file" name="foto-subir" id="foto-subir" accept="image/jpg">
+                  <label for="foto-subir" id="lab-foto">
+                    <!--<span class="material-icons">
+                      add_photo_alternate</span> &nbsp;
+                    Elige una foto</label>-->
+                </div>
+                <input type="submit" class="btn btn-primary btn-user btn-block" name="submit" value="Registrar empleado">
                 <hr>
                 <a href="index.html" class="btn btn-google btn-user btn-block">
                   <i class="fab fa-google fa-fw"></i> Register with Google
