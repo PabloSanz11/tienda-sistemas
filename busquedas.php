@@ -96,10 +96,10 @@
 				   	<li class="view_cart"><a href="checkout.php">Ver carrito</a></li>
 				   	<div class='clearfix'></div>
 				</ul>
-				<div class="search">
-					<input type="text" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
+				<form class="search" action="busquedas.php" method="get">
+					<input type="text" name="keyword" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
 					<input type="submit" value="">
-				</div>
+				</form>
 		  </div>
 		</div>
     </div>
