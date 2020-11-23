@@ -2,10 +2,17 @@
 	include('php/consultas.php');
 	session_start();
 
-	if(isset($_SESSION['validacion']))
+	if(isset($_SESSION['validacion']) && isset($_GET['keyword']))
     {
 		$idCliente = $_SESSION['idCliente'];
+		$fecha = new DateTime(null, new DateTimeZone('CST'));
+		$fechaBusqueda = $fecha->format('Y-m-d H:i:s');
 		$saludo = explode(" ",$_SESSION['nombre']);
+		$palabra = $_GET['keyword'];
+
+		$sql = "INSERT INTO busquedas (palabra, fechaBusqueda, idCliente)
+				VALUES ('$palabra','$fechaBusqueda','$idCliente');";
+		consulta($sql);
     }
     
     if(isset($_GET['keyword']))
@@ -89,10 +96,10 @@
 				   	<li class="view_cart"><a href="checkout.php">Ver carrito</a></li>
 				   	<div class='clearfix'></div>
 				</ul>
-				<div class="search">
-					<input type="text" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
+				<form class="search" action="busquedas.php" method="get">
+					<input type="text" name="keyword" value="      Buscar" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '      Buscar';}">
 					<input type="submit" value="">
-				</div>
+				</form>
 		  </div>
 		</div>
     </div>

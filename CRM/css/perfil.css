@@ -1,0 +1,94 @@
+.perfi-head
+{
+    width: 100%;
+    height: auto;
+    background-color: #ffffff;
+    padding: 1em;
+    border-radius: .4em;
+    box-shadow: 0px 0px 1px 0px rgb(83 98 98);
+}
+
+.perfi-head:hover
+{
+    background-color: #fffffff0;
+}
+
+.img-perfil
+{
+    height: 7em;
+    width: 7em;
+    margin-top: 1.2em;
+    margin-right: 1em;
+    border-radius: 82px;
+}
+
+.conten
+{
+  width: 100%;
+  height: auto;
+  text-align: left;
+}
+  
+div.div1 
+{
+    float: left;
+    height: auto;
+    width: auto;
+}
+
+div.div3 
+{
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 20px;
+}
+
+.generales-perfil
+{
+    margin-top: 1em;
+    width: 49%;
+    float: left;
+    height: auto;
+    background-color: #ffffff;
+    padding: 1em;
+    border-radius: .4em;
+    box-shadow: 0px 0px 1px 0px rgb(83 98 98);
+}
+
+.datos
+{
+    font-size: medium;
+    color: #006d97;
+    margin-top: 1em;
+}
+
+.datos-bd
+{
+    font-size: medium;
+    color: #787575;
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
+.tareas-perfil
+{
+    margin-top: 1em;
+    width: 50%;
+    float: left;
+    margin-left: 1%;
+    height: auto;
+    background-color: #ffffff;
+    padding: 1em;
+    border-radius: .4em;
+    box-shadow: 0px 0px 1px 0px rgb(83 98 98);
+}
+
+.estado
+{
+    color: #0da34c;
+}
+
+.bye
+{
+    color: red;
+}
