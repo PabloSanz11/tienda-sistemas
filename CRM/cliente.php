@@ -1,8 +1,54 @@
 <?php
     include('../php/consultas.php');
+
+    if(isset($_GET['id']))
+    {
+    $id = $_GET['id'];
+    }
+
+    $historial = historialPedidos($id);
+
+    $queryDevueltos = productosDevueltos($id);
+    $numDev = mysqli_num_rows($queryDevueltos);
+    $totalDev = 0;
+
+
+
+
+    $queryComprados = productosComprados($id);
+    $numCom = mysqli_num_rows($queryComprados);
+    $totalCompras = 0;
+
+    while($Compras = mysqli_fetch_array($queryComprados)):
+        $totalCompras = $totalCompras + $Compras['PRECIO'];   
+    endwhile;
+
+
+    $queryCurso = productosCurso($id);
+    $numCur = mysqli_num_rows($queryCurso);
+    $totalCurso = 0;
+
+    while($Curso = mysqli_fetch_array($queryCurso)):
+        $totalCurso = $totalCurso + $Curso['PRECIO'];   
+    endwhile;
+
+
+
+    $busquedas = "";
+    $queryBusquedas = busquedasCliente($id);
+    $numBus = mysqli_num_rows($queryBusquedas);
+    if($numBus <= 0){
+      $busquedas = "No hay busquedas realizadas";
+    }else{
+      while($Bus = mysqli_fetch_array($queryBusquedas)):
+        $busquedas = $busquedas." ".$Bus['palabra'];   
+      endwhile;
+    }
+
+
+
 ?>
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -23,6 +69,7 @@
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap.min.css" rel="stylesheet">
+
 
 </head>
 
@@ -337,69 +384,217 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+          <?php
+            $queryCliente = obtenerCliente($id);
+            if($queryCliente){
+              for($a = 0; $a < mysqli_num_rows($queryCliente); $a++){
+                  $cliente = mysqli_fetch_row($queryCliente);
+                  $nombreCliente = $cliente[1];
+                  $ultimaCon = $cliente[5];
+                  $foto = $cliente[2];
+              }
+            }
+          ?>
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Productos</h1>
-          <p class="mb-4">Se muestra el concentrado de todos los productos disponibles en la tienda.</p>
+          
+          
+          <div align="right">
+            <h1 class="h3 mb-2 text-gray-800" style="margin-right: 50px;"><?php echo utf8_encode($nombreCliente);?></h1>
+            <img src="<?php echo '../php/'.$foto;?>" style="width:100px; background-color: #363f3b;box-shadow: 0 0 0px 3px #beccc5;border-radius: 24em;margin-right:50px;">
+          </div><br>
 
+          <?php
+           
 
+            
+
+            
+          ?>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
+            <div class="card-body">
+
+                <table width="45%" align="left" cellspacing="0" border="1px" style="border: #E1E1E1 1px solid; width: 45%; margin-left: 6%; display: inline-table;">
+                  <thead>
+                    <tr align="center">
+                      <th align="center" style="width: 15%;">Comprados</th>
+                      <th align="center" style="width: 15%;">Devueltos</th>
+                      <th align="center" style="width: 15%;">En curso</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr align="center">
+                      <td align="center" style="height: 60px;"><?php echo $numCom?></td>
+                      <td align="center" style="height: 60px;"><?php echo $numDev?></td>
+                      <td align="center" style="height: 60px;"><?php echo $numCur?></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              
+                <table width="35%" align="right" cellspacing="0" border="1px" style="border: #E1E1E1 1px solid; border-radius: 15px; margin-right: 6%; display: inline-table;">
+                  <thead>
+                    <tr align="center">
+                      <th align="center" style="width: 15%;">Dinero gastado</th>
+                      <th align="center" style="width: 15%;">Dinero en espera</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr align="center">
+                      <td align="center" style="height: 60px;"><?php echo "$". $totalCompras." MXN"?></td>
+                      <td align="center" style="height: 60px;"><?php echo "$". $totalCurso." MXN"?></td>
+                    </tr>
+                  </tbody>
+                </table>
+              
+            </div>
+          </div>
+
+          <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Datos de Productos</h6>
+              <h5 class="m-0 font-weight-bold text-primary"><strong>Información del cliente</strong>.</h5>
             </div>
             <div class="card-body">
+              <h5 class="m-0 font-weight-bold text-primary" align="center"><strong>Datos Generales</strong>.</h5>
+
+              <p class="mb-4"><strong>Última conexión: </strong><?php echo ($ultimaCon);?>.</p>
+              <p class="mb-4"><strong>Busquedas realizadas: </strong><?php echo ($busquedas);?>.</p><hr>
+
+              <h5 class="m-0 font-weight-bold text-primary" align="center"><strong>Productos comprados</strong>.</h5><br>
+
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>ID Producto</th>
-                      <th>Nombre</th>
-                      <th>Marca</th>
-                      <th>Modelo</th>
-                      <th>Categoría</th>
-                      <th>Precio</th>
-                      <th>Cantidad</th>
+                      <th>Productos comprados</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>ID Producto</th>
-                      <th>Nombre</th>
-                      <th>Marca</th>
-                      <th>Modelo</th>
-                      <th>Categoría</th>
-                      <th>Precio</th>
-                      <th>Cantidad</th>
+                      <th>
+                        <div style="overflow: hidden;">
+                          <p style="float: left;"><?php echo "Cantidad: ".$numCom?></p>
+                          <p style="float: right;"><?php echo "Total: $".$totalCompras." MXN" ?></p>
+                        </div>
+                      </th>
                     </tr>
                   </tfoot>
                   <tbody>
-                    <?php
-                        $Query = obtenerProductos();
-                        if($Query){
-                          for($a = 0; $a < mysqli_num_rows($Query); $a++){
-                            $fila = mysqli_fetch_row($Query);
-                            echo '<tr>'; 
-                            echo "<td>$fila[0]</td>";   
-                            echo utf8_encode("<td>$fila[1]</td>");  
-                            echo "<td>$fila[2]</td>";   
-                            echo "<td>$fila[3]</td>";
-                            echo "<td>$fila[4]</td>";
-                            echo "<td>$fila[7]</td>";
-                            echo "<td>$fila[8]</td>";
-
-
-                            echo '</tr>';
-                          }
-                        print("</table>"); 
-                        echo '</table><br>';
-                      }
-                    ?>
+                    <?php if($numCom <= 0){?>
+                      <tr>
+                        <td align="center", style="width:30%";>No hay compras realizadas</td>
+                      </tr>
+                    <?php } else{ ?>
+                      <?php while($Com = mysqli_fetch_array($historial)):
+                        $estadoComprados = $Com['estado'];   
+                      ?>
+                      <tr>
+                        <?php if ($estadoComprados == "Entregado") {?>
+                          <td align="center", style="width:30%";>
+                            <strong><p><?php echo utf8_encode($Com['nombre']);?></p></strong>
+                            <p align="center">Comprado el: <br><?php echo $Com['fechaPedido'];?></p>
+                            <p align="center">Entregado el: <br><?php echo $Com['fechaEntrega'];?></p>
+                            <p align="right">Precio: <?php echo "$".$Com['PRECIO']." MXN";?></p>
+                          </td>
+                        <?php }?>
+                      </tr>
+                      <?php endwhile;?>
+                    <?php } ?>
                   </tbody>
                 </table>
               </div>
+
+              <br><hr><h5 class="m-0 font-weight-bold text-primary" align="center"><strong>Productos devueltos</strong>.</h5><br>
+
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Productos devueltos</th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+                    <?php if($numDev <= 0){?>
+                      <tr>
+                        <td align="center", style="width:30%";>No hay productos devueltos</td>
+                      </tr>
+                    <?php } else{ ?>
+                    <?php while($Dev = mysqli_fetch_array($queryDevueltos)):
+                          $estadoDevueltos = $Dev['estado'];   
+                          $totalDev = $totalDev + $Dev['PRECIO'];
+                    ?>
+                    <tr>
+                      <td align="center", style="width:30%";>
+                          <strong><p><?php echo utf8_encode($Dev['nombre']);?></p></strong>
+                          <p>Costo del producto<br><?php echo "$".$Dev['PRECIO']." MXN";?></p>
+                      </td>
+                    </tr>
+                    <?php endwhile;?>
+                    <?php } ?>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>
+                        <div style="overflow: hidden;">
+                          <p style="float: left;"><?php echo "Cantidad: ".$numDev?></p>
+                          <p style="float: right;"><?php echo "Total: $".$totalDev." MXN" ?></p>
+                        </div>
+                      </th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <br><hr><h5 class="m-0 font-weight-bold text-primary" align="center"><strong>Productos en curso</strong>.</h5><br>
+
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Productos en curso</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>
+                        <div style="overflow: hidden;">
+                          <p style="float: left;"><?php echo "Cantidad: ".$numCur?></p>
+                          <p style="float: right;"><?php echo "Total: $".$totalCurso." MXN" ?></p>
+                        </div>
+                      </th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <?php if($numDev <= 0){?>
+                      <tr>
+                        <td align="center", style="width:30%";>No hay productos en curso</td>
+                      </tr>
+                    <?php } else{ ?>
+                    <?php while($enCo = mysqli_fetch_array($historial)):
+                          $estadoCurso = $enCo['estado'];   
+                    ?>
+                    <tr>
+                    <?php if ($estadoCurso == "En curso") {?>
+                      <td align="center", style="width:30%";>
+                          <strong><p><?php echo utf8_encode($enCo['nombre']);?></p></strong>
+                          <p align="center">Comprado el: <br><?php echo $enCo['fechaPedido'];?></p>
+                          <p align="center">Se entrega el: <br><?php echo $enCo['fechaEntrega'];?></p>
+                          <p align="right">Precio: <?php echo "$".$enCo['PRECIO']." MXN";?></p>
+                      </td>
+                    <?php }?>
+
+                    </tr>
+                    <?php endwhile;?>
+                    <?php } ?>
+                  </tbody>
+                </table>
+              </div>
+
+
             </div>
           </div>
-
+          
         </div>
         <!-- /.container-fluid -->
 
@@ -455,8 +650,9 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+
   <!-- Page level plugins -->
-  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js"></script>
@@ -470,11 +666,10 @@
           },
           responsive:true,
           autoWidth:false
-          
         });
     });
   </script>
-
+  
 </body>
 
 </html>

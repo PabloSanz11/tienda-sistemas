@@ -22,6 +22,8 @@
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap.min.css" rel="stylesheet">
+  
 
 </head>
 
@@ -356,7 +358,7 @@
                       <th>Fecha de entrega</th>
                       <th>Total</th>
                       <th>ID Tarjeta</th>
-                      <th>ID Dirección</th>
+                      <th>Estado</th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -366,7 +368,7 @@
                       <th>Fecha de entrega</th>
                       <th>Total</th>
                       <th>ID Tarjeta</th>
-                      <th>ID Dirección</th>
+                      <th>Estado</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -379,9 +381,9 @@
                             echo "<td>$fila[0]</td>";   
                             echo "<td>$fila[1]</td>";  
                             echo "<td>$fila[2]</td>";   
-                            echo "<td>$fila[3]</td>";
+                            echo "<td>$$fila[3] MXN</td>";
                             echo "<td>$fila[5]</td>";
-                            echo "<td>$fila[6]</td>";
+                            echo "<td>$fila[7]</td>";
                             echo '</tr>';
                           }
                         print("</table>"); 
@@ -453,9 +455,21 @@
   <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
+  <script>
+    $(document).ready(function() {    
+        $('#dataTable').DataTable({
+          "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+          },
+          responsive:true,
+          autoWidth:false
+        });
+    });
+  </script>
 
 </body>
 

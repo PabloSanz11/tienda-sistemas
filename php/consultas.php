@@ -268,4 +268,41 @@
         $query = consulta($sql);
         return $query;
     }
+
+    function busquedasCliente($idCliente)
+    {
+        $sql = "SELECT palabra FROM busquedas WHERE idCliente = '$idCliente';";
+        $query = consulta($sql);
+        return $query;
+    }
+
+    function productosComprados($idCliente)
+    {
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        FROM CARRITOS c, pedidos p, productos pp
+        WHERE p.estado = 'Entregado' AND vigente = FALSE AND comprado = TRUE AND idCliente = '$idCliente' AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
+        $query = consulta($sql);
+
+        return $query;
+    }
+
+    function productosDevueltos($idCliente)
+    {
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        FROM CARRITOS c, pedidos p, productos pp
+        WHERE p.estado = 'Devuelto' AND vigente = FALSE AND comprado = TRUE AND idCliente = '$idCliente' AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
+        $query = consulta($sql);
+
+        return $query;
+    }
+
+    function productosCurso($idCliente)
+    {
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        FROM CARRITOS c, pedidos p, productos pp
+        WHERE p.estado = 'En curso' AND vigente = FALSE AND comprado = TRUE AND idCliente = '$idCliente' AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
+        $query = consulta($sql);
+
+        return $query;
+    }
 ?>
