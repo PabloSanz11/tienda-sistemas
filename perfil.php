@@ -245,7 +245,6 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
         <div class="col-md-3 pt-0">
           <div class="list-group list-group-flush account-settings-links">
             <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">General</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Redes Sociales</a>
             <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-connections">Pedidos</a>
           </div>
         </div>
