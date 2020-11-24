@@ -29,7 +29,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="index.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -104,7 +104,7 @@
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html"> <!--nav-link href="charts.html"-->
+        <a class="nav-link" href="graficas.php"> <!--nav-link href="charts.html"-->
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Gráficas</span></a>
       </li>
@@ -118,11 +118,11 @@
         <div id="collapseTables" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Elementos:</h6>
-            <a href="tables.html" class="collapse-item">Leads</a>
-            <a href="tables.html" class="collapse-item">Empleados</a>
-            <a href="tables.html" class="collapse-item">Proveedores</a>
-            <a href="tables.html" class="collapse-item">Pedidos</a>
-            <a href="tables.html" class="collapse-item">Productos</a>
+            <a href="tabla_clientes.php" class="collapse-item">Leads</a>
+            <a href="tabla_empleados.php" class="collapse-item">Empleados</a>
+            <a href="tabla_proveedores.php" class="collapse-item">Proveedores</a>
+            <a href="tabla_pedidos.php" class="collapse-item">Pedidos</a>
+            <a href="tabla_productos.php" class="collapse-item">Productos</a>
           </div>
         </div>
       </li>
@@ -338,12 +338,12 @@
             </div>
             <div class="card-body">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <a href="#" class="btn btn-success btn-icon-split">
+            <button class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#addModal" id="add-provider">
                     <span class="icon text-white-50">
                       <i class="fas fa-upload"></i>
                     </span>
                     <span class="text">Agregar un nuevo proveedor</span>
-              </a>
+            </button>
               <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generar reporte</a>
             </div>
 
@@ -353,6 +353,7 @@
                     <tr>
                       <th>Foto</th>
                       <th>Proveedor</th>
+                      <th>clave</th>
                       <th>Teléfono</th>
                       <th>Domicilio</th>
                       <th>Acciones</th>
@@ -362,6 +363,7 @@
                   <tr>
                       <th>Foto</th>
                       <th>Proveedor</th>
+                      <th>clave</th>
                       <th>Teléfono</th>
                       <th>Domicilio</th>
                       <th>Acciones</th>
@@ -369,24 +371,25 @@
                   </tfoot>
                   <tbody>
                   <?php
-                      include('php/conexion.php');
-                      $sql = "SELECT foto, nombre, numTelefono, domicilio FROM proveedores;";
+                      include('../php/conexion.php');
+                      $sql = "SELECT foto, nombre, idProveedor, numTelefono, domicilio FROM proveedores;";
                       $Query = consulta($sql);
                         if($Query){
                           for($a = 0; $a < mysqli_num_rows($Query); $a++){
                             $fila = mysqli_fetch_row($Query);
                             echo '<tr>'; 
                             echo "<td><img width=80 height=100 src=php/$fila[0]></td>";   
-                            echo "<td>$fila[1]</td>";   
-                            echo "<td>$fila[2]</td>";  
-                            echo "<td>$fila[3]</td>";   
+                            echo "<td class='nombre-proveedor'>$fila[1]</td>";  
+                            echo "<td class='clave-proveedor'>$fila[2]</td>";  
+                            echo "<td>$fila[3]</td>";  
+                            echo "<td>$fila[4]</td>";   
                     ?>
-                            <td><div><a href="#" data-toggle="modal" data-target="#logoutModal">
+                            <td><div><a href="#" data-toggle="modal" data-target="#editModal" class="link-edit">
                               <i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Editar"></i>
                             </a>
-                            <a href="#" data-toggle="modal" data-target="#logoutModal">
+                            <a href="#" data-toggle="modal" data-target="#deleteModal" class="link-delete">
                               <i class="fas fa-trash-alt" style="margin:10px;" data-toggle="tooltip" data-placement="top" title="Eliminar"></i>
-                            </a><a href="#" data-toggle="modal" data-target="#logoutModal">
+                            </a><a href="#" data-toggle="modal" data-target="#mailModal" class="link-mail">
                               <i class="fas fa-envelope" data-toggle="tooltip" data-placement="top" title="Contactar">
                             </i>
                           </div></td>
@@ -429,6 +432,157 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <!-- Mail Modal-->
+  <div class="modal fade" id="mailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><p class="mail-prov"></p></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form id="form-mail" action="php/consultasProveedores.php" method="POST" enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="form-group">
+                <label for="destinatario">Para:</label>
+                <input type='mail' class='form-control' name='destinatario' id='destinatario' required>
+            </div>
+            <div class="form-group">
+                  <label for="asunto">Asunto:</label>
+                  <input type="text" class="form-control" name="asunto" id="asunto" required>
+            </div>
+            <div class="form-group">
+                  <label for="mensaje">Mensaje:</label>
+                  <textarea name="mensaje" class="form-control" id="mensaje" rows="11" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            <input type="hidden" name="vals" value="send" id="send">  
+            <input class="btn btn-primary" type="submit" id="mailButton" value="Enviar">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!--Eliminar empleado modal-->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Eliminar proveedor</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body"><p class="del-prov"></p></div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <form id="form-delete" action="php/consultasProveedores.php" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="idProveedor" class="idProveedor">  
+            <input type="hidden" name="vals" value="delete" id="delete">  
+            <input class="btn btn-primary" type="submit" name="submit" id="delete" value="Eliminar">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Editar proveedor modal-->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><p class="nom-proveedor"></p></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form id="form-edit" action="php/consultasProveedores.php" method="POST" enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="form-group">
+                  <label for="nombreProveedor">Nombre</label>
+                  <input type="text" class="form-control" name="nombreProveedor" id="nombreProveedor">
+            </div>
+            <div class="form-group">
+                  <label for="telefonoProveedor">Teléfono</label>
+                  <input type="tel" class="form-control" name="telefonoProveedor" id="telefonoProveedor">
+            </div>
+            <div class="form-group">
+                  <label for="correoProveedor">Correo</label>
+                  <input type="mail" class="form-control" name="correoProveedor" id="correoProveedor">
+            </div>
+            <div class="form-group">
+                  <label for="domicilioProveedor">Domicilio</label>
+                  <input type="text" class="form-control" name="domicilioProveedor" id="domicilioProveedor">
+            </div>
+            <div class="form-group">
+                  <label for="fotoProveedor">Foto</label>
+                  <input type="file" class="form-control-file" name="fotoProveedor" id="fotoProveedor">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="idProveedor" class="idProveedor">  
+            <input type="hidden" name="vals" value="edit" id="edit">  
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            <button class="btn btn-primary" type="submit" id="edit">Editar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+    <!-- Agregar proveedor Modal-->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo proveedor</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form id="form-add" action="php/consultasProveedores.php" method="POST" enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="nombreEmpresa">Empresa</label>
+              <input type="text" class="form-control" name="nombreEmpresa" id="nombreEmpresa">
+            </div>
+            <div class="form-group">
+              <label for="nombreDomicilio">Domicilio</label>
+              <input type="text" class="form-control" name="nombreDomicilio" id="nombreDomicilio">
+            </div>
+            <div class="form-group">
+              <label for="nombreCorreo">Correo</label>
+              <input type="mail" class="form-control" name="nombreCorreo" id="nombreCorreo">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="fechaAlta">Fecha alta</label>
+                  <input type="date" class="form-control" name="fechaAlta" id="fechaAlta">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="numTelefono">Telefono</label>
+                  <input type="tel" class="form-control" name="numTelefono" id="numTelefono">
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="inputLogo">Logo</label>
+              <input type="file" class="form-control" name="inputLogo" id="inputLogo">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <input type="submit" value="Registrar" class="btn btn-primary" id="agregar-proveedor">
+          </div>
+          <input type="hidden" name="vals" value="add" id="add">
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -458,10 +612,133 @@
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
   <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
- //       $('.fas fa-envelope').tooltip({ boundary: 'window' })
-    })
+    $(document).ready(function(e){
+      $('[data-toggle="tooltip"]').tooltip();
+
+      //API para insertar nuevo proveedor
+      $("#form-add").on('submit',(function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: "../php/consultasProveedores.php",
+          type: "POST",
+          data: new FormData(this),
+          contentType: false,
+          cache: false,
+          processData:false,
+          success: function(data){
+            if(data == 'valid'){
+              alert("Se ha agregado un nuevo proveedor con éxito.");
+              window.location.href = "tratos.php";
+            }else{
+              alert("Ha ocurrido un error: " + data);
+            }
+          },
+          error: function(){
+            alert("Ha ocurrido un error");
+          }
+        });
+      }));
+
+      //API para editar un proveedor
+      $(".link-edit").click(function(){
+        var nombre = $(this).parents("tr").find(".nombre-proveedor").text();
+        var idProveedor = $(this).parents("tr").find(".clave-proveedor").text();
+        $(".idProveedor").val(idProveedor);
+        $(".nom-proveedor").html("Editar a: "+ nombre);
+
+        $("#form-edit").on('submit',(function(e) {
+          e.preventDefault();
+
+          $.ajax({
+            url: "../php/consultasProveedores.php",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data){
+              if(data == 'valid'){
+                alert("Se ha agregado un nuevo proveedor con éxito.");
+                window.location.href = "tratos.php";
+              }else{
+                alert("Ha ocurrido un error: " + data);
+              }
+            },
+            error: function(){
+              alert("Ha ocurrido un error");
+            }
+        });
+      }));
+      });
+
+      
+      //API para eliminar un proveedor
+      $(".link-delete").click(function(){
+        var nombre = $(this).parents("tr").find(".nombre-proveedor").text();
+        var idProveedor = $(this).parents("tr").find(".clave-proveedor").text();
+        $(".idProveedor").val(idProveedor);
+        $(".del-prov").html("Estás por eliminar a: "+ nombre + ", ¿estás seguro (a)?");
+
+        $("#form-delete").on('submit',(function(e) {
+          e.preventDefault();
+
+          $.ajax({
+            url: "../php/consultasProveedores.php",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data){
+              if(data == 'valid'){
+                alert("Se ha eliminado un proveedor con éxito");
+                window.location.href = "tratos.php";
+              }else{
+                alert("Ha ocurrido un error: " + data);
+              }
+            },
+            error: function(){
+              alert("Ha ocurrido un errorcillo");
+            }
+        });
+      }));
+    });
+      
+
+      //API para contactar a un proveedor
+      $(".link-mail").click(function(){
+        var nombre = $(this).parents("tr").find(".nombre-proveedor").text();
+        $(".mail-prov").html("Enviar correo a: "+ nombre);
+        var idProveedor = $(this).parents("tr").find(".clave-proveedor").text();
+
+
+        $.get('../php/consultasProveedores.php', { val:"mail", idProveedor: idProveedor})
+            .done(function(mail){
+              $("#destinatario").val(mail);
+            });
+        
+        $("#form-mail").on('submit',(function(e) {
+          e.preventDefault();
+
+          $.ajax({
+            url: "../php/consultasProveedores.php",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data){
+              alert("Se ha mandado el correo con éxito.");
+              window.location.href = "tratos.php";
+            },
+            error: function(){
+              alert("Ha ocurrido un errorcillo");
+            }
+        });
+    }));     
+  });
+});
+
 
     
   </script>

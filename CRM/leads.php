@@ -29,114 +29,114 @@
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-<!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-  <div class="sidebar-brand-icon rotate-n-15">
-    <i class="fas fa-laugh-wink"></i>
-  </div>
-  <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
-</a>
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+      </a>
 
-<!-- Divider -->
-<hr class="sidebar-divider my-0">
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
 
-<!-- Nav Item - Dashboard -->
-<li class="nav-item active">
-  <a class="nav-link" href="index.html">
-    <i class="fas fa-fw fa-tachometer-alt"></i>
-    <span>Dashboard</span></a>
-</li>
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="index.php">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
 
-<!-- Divider -->
-<hr class="sidebar-divider">
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
-<!-- Heading -->
-<div class="sidebar-heading">
-  Administración
-</div>
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Administración
+      </div>
 
-<!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-    <i class="fas fa-fw fa-cog"></i>
-    <span>Componentes</span>
-  </a>
-  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <h6 class="collapse-header">Secciones:</h6>
-      <a class="collapse-item" href="leads.php">Leads</a>
-      <a class="collapse-item" href="empleados.php">Empleados</a>
-      <a class="collapse-item" href="tratos.php">Tratos</a>
-      <a class="collapse-item" href="productos.php">Productos</a>
-    </div>
-  </div>
-</li>
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Componentes</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Secciones:</h6>
+            <a class="collapse-item" href="leads.php">Leads</a>
+            <a class="collapse-item" href="empleados.php">Empleados</a>
+            <a class="collapse-item" href="tratos.php">Tratos</a>
+            <a class="collapse-item" href="productos.php">Productos</a>
+          </div>
+        </div>
+      </li>
 
-<!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-    <i class="fas fa-receipt"></i>
-    <span>Pedidos</span>
-  </a>
-  <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <h6 class="collapse-header">Tipos:</h6>
-      <a class="collapse-item" href="pedidos_pendientes.html">Pendientes</a>
-      <a class="collapse-item" href="pedidos_devolucion.html">Devoluciones</a>
-    </div>
-  </div>
-</li>
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-receipt"></i>
+          <span>Pedidos</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Tipos:</h6>
+            <a class="collapse-item" href="pedidos_pendientes.html">Pendientes</a>
+            <a class="collapse-item" href="pedidos_devolucion.html">Devoluciones</a>
+          </div>
+        </div>
+      </li>
 
-<!-- Divider -->
-<hr class="sidebar-divider">
+      <!-- Divider -->
+      <hr class="sidebar-divider">
 
-<!-- Heading -->
-<div class="sidebar-heading">
-  Análisis
-</div>
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Análisis
+      </div>
 
-<!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
-  <a class="nav-link" href="tareas.html">
-    <i class="fas fa-tasks"></i>
-    <span>Progreso Actividades</span>
-  </a>
-</li>
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="tareas.html">
+          <i class="fas fa-tasks"></i>
+          <span>Progreso Actividades</span>
+        </a>
+      </li>
 
-<!-- Nav Item - Charts -->
-<li class="nav-item">
-  <a class="nav-link" href="charts.html"> <!--nav-link href="charts.html"-->
-    <i class="fas fa-fw fa-chart-area"></i>
-    <span>Gráficas</span></a>
-</li>
+      <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="graficas.php"> <!--nav-link href="charts.html"-->
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Gráficas</span></a>
+      </li>
 
-<!-- Nav Item - Tables -->
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTables" aria-expanded="true" aria-controls="collapsePages"> <!--<a class="nav-link" href="tables.html">-->
-    <i class="fas fa-fw fa-table"></i>
-    <span>Tablas</span>
-  </a>
-  <div id="collapseTables" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <h6 class="collapse-header">Elementos:</h6>
-      <a href="tables.html" class="collapse-item">Leads</a>
-      <a href="tables.html" class="collapse-item">Empleados</a>
-      <a href="tables.html" class="collapse-item">Proveedores</a>
-      <a href="tables.html" class="collapse-item">Pedidos</a>
-      <a href="tables.html" class="collapse-item">Productos</a>
-    </div>
-  </div>
-</li>
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTables" aria-expanded="true" aria-controls="collapsePages"> <!--<a class="nav-link" href="tables.html">-->
+          <i class="fas fa-fw fa-table"></i>
+          <span>Tablas</span>
+        </a>
+        <div id="collapseTables" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Elementos:</h6>
+            <a href="tabla_clientes.php" class="collapse-item">Leads</a>
+            <a href="tabla_empleados.php" class="collapse-item">Empleados</a>
+            <a href="tabla_proveedores.php" class="collapse-item">Proveedores</a>
+            <a href="tabla_pedidos.php" class="collapse-item">Pedidos</a>
+            <a href="tabla_productos.php" class="collapse-item">Productos</a>
+          </div>
+        </div>
+      </li>
 
-<!-- Divider -->
-<hr class="sidebar-divider d-none d-md-block">
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
 
-<!-- Sidebar Toggler (Sidebar) -->
-<div class="text-center d-none d-md-inline">
-  <button class="rounded-circle border-0" id="sidebarToggle"></button>
-</div>
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
 
-</ul>
+    </ul>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -355,7 +355,7 @@
                       <th>Foto</th>
                       <th>Lead/Cliente</th>
                       <th>Ultima conexión</th>
-                      <th>Status</th>
+                      <th>No. Cuenta</th>
                       <th>Teléfono</th>
                       <th>Acciones</th>
                     </tr>
@@ -365,28 +365,35 @@
                       <th>Foto</th>
                       <th>Lead/Cliente</th>
                       <th>Ultima conexión</th>
-                      <th>Status</th>
+                      <th>No. Cuenta</th>
                       <th>Teléfono</th>
                       <th>Acciones</th>
                     </tr>
                   </tfoot>
                   <tbody>
                   <?php
-                      include('php/conexion.php');
-                      $sql = "SELECT foto, nombre, ultimaCon, idCliente, numTelefono FROM clientes;";
-                      $Query = consulta($sql);
+                      include('../php/consultasLeads.php');
+                      $Query = get_leads_data();
                        // $Query = obtenerClientes();
                         if($Query){
                           for($a = 0; $a < mysqli_num_rows($Query); $a++){
                             $fila = mysqli_fetch_row($Query);
                             echo '<tr>'; 
                             echo "<td><img width=80 height=100 src=php/$fila[0]></td>";   
-                            echo "<td>$fila[1]</td>";   
+                            echo "<td class='nombre-lead'>$fila[1]</td>";   
                             echo "<td>$fila[2]</td>";  
-                            echo "<td>$fila[3]</td>";   
+                            echo "<td class='id-lead'>$fila[3]</td>";   
                             echo "<td>$fila[4]</td>";
                     ?>
-                            <td><div><a href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-envelope" data-toggle="tooltip" data-placement="top" title="Enviar correo"></i></a><a href="#" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Borrar lead" style="margin:10px;"></i></a></div></td>
+                            <td>
+                              <div>
+                                <a href="#" data-toggle="modal" data-target="#mailModal" class="link-mail">
+                                  <i class="fas fa-envelope" data-toggle="tooltip" data-placement="top" title="Enviar correo"></i>
+                                </a>
+                                <a href="#" data-toggle="modal" data-target="#deleteModal" class="link-del">
+                                  <i class="fas fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Borrar lead" style="margin:10px;"></i></a>
+                                </div>
+                              </td>
                     <?php
                             echo '</tr>';
                           }
@@ -427,6 +434,40 @@
   </a>
 
 
+
+    <!-- Mail Modal-->
+    <div class="modal fade" id="mailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><p class="mail-lead"></p></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+              <label for="destinatario">Para:</label>
+              <input type='mail' class='form-control' name='destinatario' id='destinatario'>
+          </div>
+          <div class="form-group">
+                <label for="asunto">Asunto:</label>
+                <input type="text" class="form-control" name="asunto" id="asunto">
+          </div>
+          <div class="form-group">
+                <label for="mensaje">Mensaje:</label>
+                <textarea name="mensaje" class="form-control" id="mensaje" rows="11"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <button class="btn btn-primary" type="submit" id="mailButton">Enviar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
     <!--Eliminar lead modal-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -437,10 +478,10 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Estás por eliminar a: , ¿estás seguro(a)?</div>
+        <div class="modal-body"><p class="del-user"></p></div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="login.html">Eliminar</a>
+          <button class="btn btn-primary" type="submit" id="delete">Eliminar</a>
         </div>
       </div>
     </div>
@@ -476,45 +517,47 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">
-          <form action="php/registroleads.php" method="post">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputNombre">Nombre</label>
-                <input type="text" class="form-control" name="nombreLead" id="inputNombre">
+        <form id="form" action="php/consultasLeads.php" method="POST" enctype="multipart/form-data">
+          <div class="modal-body">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="nombreLead">Nombre</label>
+                  <input type="text" class="form-control" name="nombreLead" id="nombreLead" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="mailLead">E-mail</label>
+                  <input type="email" class="form-control" name="mailLead" id="mailLead" required>
+                </div>
               </div>
-              <div class="form-group col-md-6">
-                <label for="inputNombre">E-mail</label>
-                <input type="email" class="form-control" name="mailLead" id="inputMail">
+              <div class="form-group">
+                <label for="domicilioLead">Domicilio</label>
+                <input type="text" class="form-control" name="domicilioLead" id="domicilioLead" required>
               </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="nacLead">Fecha de nac.:</label>
+                  <input type="date" class="form-control" name="nacLead" id="nacLead" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="telLead">Teléfono</label>
+                  <input type="tel" class="form-control" name="telLead" id="telLead" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="imgLead">Foto</label>
+                  <input type="file" class="form-control-file" name="imgLead" id="imgLead">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="passLead">Contraseña</label>
+                  <input type="password" class="form-control" name="passLead" id="passLead" required>
+                </div>
+                <input type="hidden" name="vals" value="add" id="add">
             </div>
-            <div class="form-group">
-              <label for="inputDom">Domicilio</label>
-              <input type="text" class="form-control" name="domicilioLead" id="inputDom">
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+              <input class="btn btn-primary" type="submit" value="Registrar">
             </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputNac">Fecha de nac.:</label>
-                <input type="date" class="form-control" name="nacLead" id="inputNac">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputTel">Teléfono</label>
-                <input type="tel" class="form-control" name="telLead" id="inputTel">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputImg">Foto</label>
-                <input type="file" class="form-control-file" name="imgLead" id="inputImg">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputPass">Contraseña</label>
-                <input type="password" class="form-control" name="passLead" id="inputPass">
-              </div>
-        </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-            <a class="btn btn-primary" href="login.html">Registrar</a>
           </div>
         </form>
       </div>
@@ -535,11 +578,101 @@
   <script src="js/sb-admin-2.min.js"></script>
 
   <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
- //       $('.fas fa-envelope').tooltip({ boundary: 'window' })
-    })
+    $(document).ready(function(e){
+      $('[data-toggle="tooltip"]').tooltip();
 
+      //API para enviar correo a lead
+      $(".link-mail").click(function(){
+        var nombre = $(this).parents("tr").find(".nombre-lead").text();
+        $(".mail-lead").html("Enviar correo a: "+ nombre);
+        var id = $(this).parents("tr").find(".id-lead").text();
+
+
+       $.get('../php/consultasLeads.php', { val:"mail", idLead:id})
+            .done(function(mail){
+              $("#destinatario").val(mail);
+            });
+
+        $('#mailButton').click(function(){
+          var destinatario = $("#destinatario").val();
+          var asunto = $("#asunto").val();
+          var mensaje = $("#mensaje").val();
+
+          $.ajax({
+            type : "POST",
+            url: '../php/consultasLeads.php',
+            data : {
+              "vals": "send",
+              "id": id,
+              "destinatario" : destinatario,
+              "asunto" : asunto,
+              "mensaje" : mensaje
+            },
+            dataType : "html",
+            success: function(res){
+                alert("El mensaje se ha enviado con éxito");
+                window.location.href = "leads.php";
+            },
+            error: function(){
+              alert("Ha ocurrido un error en el proceso");
+            }
+          });
+        });
+      });
+
+      //API para eliminar lead
+      $(".link-del").click(function(){
+        var nombre = $(this).parents("tr").find(".nombre-lead").text();
+        $('.del-user').html("Estás por eliminar a: "+ nombre + ", ¿estás seguro(a)?");  //+ a+ ", ¿estás seguro(a)?");
+        value = "delete";
+        $("#delete").click(function(){
+          $.ajax({
+            type: "POST",
+            url: '../php/consultasLeads.php',
+            data: {
+              "vals": value,
+              "name": nombre
+            },
+            dataType: "html",
+            success: function(res){
+              if(res == "valid"){
+                alert("Se ha eliminado con éxito");
+                window.location.href = "leads.php";
+              } else{
+                alert("Ha ocurrido un error, no se ha eliminado");
+              }
+            },
+            error: function(){
+              alert("Ha ocurrido un error en el proceso");
+            }
+          });
+        });
+      });
+
+      //API para insertar nuevo lead
+      $("#form").on('submit',(function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: "../php/consultasLeads.php",
+          type: "POST",
+          data: new FormData(this),
+          contentType: false,
+          cache: false,
+          processData:false,
+          success: function(data){
+            if(data == 'valid'){
+              alert("Se ha agregado un nuevo lead con éxito.");
+              window.location.href = "leads.php";
+            }else{
+              alert("Ha ocurrido un error: " + data);
+            }
+          },
+          error: function(){
+            alert("Ha ocurrido un error");
+          }
+        });
+      }));
+    });
     
   </script>
 

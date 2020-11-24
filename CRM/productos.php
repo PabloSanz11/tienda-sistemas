@@ -29,7 +29,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="index.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -104,7 +104,7 @@
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html"> <!--nav-link href="charts.html"-->
+        <a class="nav-link" href="graficas.php"> <!--nav-link href="charts.html"-->
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Gráficas</span></a>
       </li>
@@ -118,11 +118,11 @@
         <div id="collapseTables" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Elementos:</h6>
-            <a href="tables.html" class="collapse-item">Leads</a>
-            <a href="tables.html" class="collapse-item">Empleados</a>
-            <a href="tables.html" class="collapse-item">Proveedores</a>
-            <a href="tables.html" class="collapse-item">Pedidos</a>
-            <a href="tables.html" class="collapse-item">Productos</a>
+            <a href="tabla_clientes.php" class="collapse-item">Leads</a>
+            <a href="tabla_empleados.php" class="collapse-item">Empleados</a>
+            <a href="tabla_proveedores.php" class="collapse-item">Proveedores</a>
+            <a href="tabla_pedidos.php" class="collapse-item">Pedidos</a>
+            <a href="tabla_productos.php" class="collapse-item">Productos</a>
           </div>
         </div>
       </li>
@@ -338,7 +338,7 @@
             </div>
             <div class="card-body">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <a href="#" class="btn btn-success btn-icon-split">
+            <a href="#" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#addModal" id="add-provider">
                     <span class="icon text-white-50">
                       <i class="fas fa-upload"></i>
                     </span>
@@ -354,6 +354,7 @@
                       <th>Foto</th>
                       <th>Producto</th>
                       <th>Categoría</th>
+                      <th>Clave</th>
                       <th>En stock</th>
                       <th>Precio</th>
                       <th>Proveedor</th>
@@ -365,6 +366,7 @@
                       <th>Foto</th>
                       <th>Producto</th>
                       <th>Categoría</th>
+                      <th>Clave</th>
                       <th>En stock</th>
                       <th>Precio</th>
                       <th>Proveedor</th>
@@ -373,8 +375,8 @@
                   </tfoot>
                   <tbody>
                   <?php
-                      include('php/conexion.php');
-                      $sql = "SELECT productos.foto, productos.nombre, productos.categoria, productos.cantidad, productos.precio, proveedores.nombre AS Proveedor
+                      include('../php/conexion.php');
+                      $sql = "SELECT productos.foto, productos.nombre, productos.categoria, productos.idProducto , productos.cantidad, productos.precio, proveedores.nombre AS Proveedor
                        FROM productos
                         INNER JOIN proveedores ON productos.idProveedor = proveedores.idProveedor;";
                       $Query = consulta($sql);
@@ -384,13 +386,23 @@
                             $fila = mysqli_fetch_row($Query);
                             echo '<tr>'; 
                             echo "<td><img width=80 height=100 src=php/$fila[0]></td>";   
-                            echo "<td>$fila[1]</td>";   
+                            echo "<td class='nombre-producto'>$fila[1]</td>";   
                             echo "<td>$fila[2]</td>";  
-                            echo "<td>$fila[3]</td>";   
+                            echo "<td class='clave-producto'>$fila[3]</td>";   
                             echo "<td>$fila[4]</td>";
                             echo "<td>$fila[5]</td>";
+                            echo "<td>$fila[6]</td>";
                     ?>
-                            <td><div><a href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Editar producto"></i></a><a href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Eliminar producto" style="margin:10px;"></i></a></div></td>
+                            <td>
+                              <div>
+                                <a href="#" data-toggle="modal" data-target="#editModal" class="link-edit">
+                                  <i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Editar producto"></i>
+                                </a>
+                                <a href="#" data-toggle="modal" data-target="#deleteModal" class="link-delete">
+                                  <i class="fas fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Eliminar producto" style="margin:10px;"></i>
+                                </a>
+                              </div>
+                            </td>
                     <?php
                             echo '</tr>';
                           }
@@ -430,6 +442,192 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <!--Eliminar producto modal-->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Eliminar producto</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body"><p class="del-producto"></p></div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <form id="form-delete" action="php/consultasProductos.php" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="idProducto" class="idProducto">  
+            <input type="hidden" name="vals" value="delete" id="delete">  
+            <input class="btn btn-primary" type="submit" name="submit" id="delete" value="Eliminar">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Editar producto modal-->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><p class="nom-producto"></p></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form id="form-edit" action="php/consultasProductos.php" method="POST" enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="form-group">
+                  <label for="nombreProducto">Nombre de producto</label>
+                  <input type="text" class="form-control" name="nombreProducto" id="nombreProducto">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="marcaProducto">Marca</label>
+                  <input type="text" class="form-control" name="marcaProducto" id="marcaProducto">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="categoriaProducto">Categoria</label>
+                  <select class="form-control" name="categoriaProducto" id="exampleFormControlSelect1">
+                    <option value="Electrofonos">Electrofonos</option>
+                    <option value="Viento">Viento</option>
+                    <option value="Cuerdas">Cuerdas</option>
+                    <option value="Percusion">Percusion</option>
+                    <option value="Idiofonos">Idiofonos</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="modeloProducto">Modelo</label>
+                  <input type="text" class="form-control" name="modeloProducto" id="modeloProducto">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="precioProducto">Precio</label>
+                  <input type="text" class="form-control" name="precioProducto" id="precioProducto" placeholder="5000.00">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="cantProducto">Cantidad</label>
+                  <input type="number" class="form-control" name="cantProducto" id="cantProducto">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="proovedorProducto">Proveedor</label>
+                  
+                  <select class="form-control" name="proovedorProducto" id="proovedorProducto">
+                  <?php
+                     $sql = "SELECT nombre FROM proveedores";
+                     $Query = consulta($sql);
+                     if($Query){
+                       for($a = 0; $a < mysqli_num_rows($Query); $a++){
+                         $fila = mysqli_fetch_row($Query);
+                        echo "<option value='$fila[0]'>$fila[0]</option>";
+                       }
+                     }
+                  ?>
+                  </select>
+                  
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="descrProducto">Descripción:</label>
+              <textarea name="descrProducto" class="form-control" id="descrProducto" rows="11"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="idProducto" class="idProducto">  
+            <input type="hidden" name="vals" value="edit" id="edit">  
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            <input class="btn btn-primary" type="submit" id="edit" value="Editar">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>  
+
+  <!-- Agregar producto Modal-->
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Agregar un producto nuevo</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form id="form-add" action="php/consultasProductos.php" method="POST" enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="form-group">
+                  <label for="nombreProducto">Nombre de producto</label>
+                  <input type="text" class="form-control" name="nombreProducto" id="nombreProducto" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="marcaProducto">Marca</label>
+                  <input type="text" class="form-control" name="marcaProducto" id="marcaProducto" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="categoriaProducto">Categoria</label>
+                  <select class="form-control" name="categoriaProducto" id="exampleFormControlSelect1" required>
+                    <option value="Electrofonos">Electrofonos</option>
+                    <option value="Viento">Viento</option>
+                    <option value="Cuerdas">Cuerdas</option>
+                    <option value="Percusion">Percusion</option>
+                    <option value="Idiofonos">Idiofonos</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="modeloProducto">Modelo</label>
+                  <input type="text" class="form-control" name="modeloProducto" id="modeloProducto" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="precioProducto">Precio</label>
+                  <input type="text" class="form-control" name="precioProducto" id="precioProducto" placeholder="5000.00" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="cantProducto">Cantidad</label>
+                  <input type="number" class="form-control" name="cantProducto" id="cantProducto" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="proovedorProducto">Proveedor</label>
+                  <select class="form-control" name="proovedorProducto" id="proovedorProducto" required>
+                  <?php
+                     $sql = "SELECT nombre FROM proveedores";
+                     $Query = consulta($sql);
+                     if($Query){
+                       for($a = 0; $a < mysqli_num_rows($Query); $a++){
+                         $fila = mysqli_fetch_row($Query);
+                        echo "<option value='$fila[0]'>$fila[0]</option>";
+                       }
+                     }
+                  ?>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="descrProducto">Descripción:</label>
+              <textarea name="descrProducto" class="form-control" id="descrProducto" rows="8" required></textarea>
+            </div>
+            <div class="form-group">
+                  <label for="fotoProducto">Foto</label>
+                  <input type="file" class="form-control-file" name="fotoProducto" id="fotoProducto" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="vals" value="add" id="add">  
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            <input class="btn btn-primary" type="submit" id="add-button" value="Agregar">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -460,10 +658,100 @@
   <script src="js/sb-admin-2.min.js"></script>
 
   <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
- //       $('.fas fa-envelope').tooltip({ boundary: 'window' })
-    })
+    $(document).ready(function(e){
+      $('[data-toggle="tooltip"]').tooltip();
+
+      //API para eliminar un producto
+      $(".link-delete").click(function(){
+        var nombre = $(this).parents("tr").find(".nombre-producto").text();
+        $(".del-producto").html("Estás por eliminar: "+ nombre + ", ¿estás seguro (a)?");
+        var idProducto = $(this).parents("tr").find(".clave-producto").text();
+        $(".idProducto").val(idProducto);
+
+        $("#form-delete").on('submit',(function(e) {
+          e.preventDefault();
+
+          $.ajax({
+            url: "../php/consultasProductos.php",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data){
+              if(data == 'valid'){
+                alert("Se ha eliminado el producto");
+                window.location.href = "productos.php";
+              }else{
+                alert(data);
+              }
+            },
+            error: function(){
+              alert("Ha ocurrido un errorcillo");
+            }
+        });
+      }));
+    });
+
+      //API para agregar un nuevo producto
+      $("#form-add").on('submit',(function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: "../php/consultasProductos.php",
+          type: "POST",
+          data: new FormData(this),
+          contentType: false,
+          cache: false,
+          processData:false,
+          success: function(data){
+            alert(data);
+            /*
+            if(data == 'valid'){
+              alert("Se ha agregado un nuevo producto con éxito.");
+              window.location.href = "productos.php";
+            }else{
+              alert("Ha ocurrido un error: " + data);
+            }*/
+          },
+          error: function(){
+            alert("Ha ocurrido un errorcillo");
+          }
+        });
+      }));
+
+
+      //API para editar un producto
+      $(".link-edit").click(function(){
+        var nombre = $(this).parents("tr").find(".nombre-producto").text();
+        var idProducto = $(this).parents("tr").find(".clave-producto").text();
+        $(".idProducto").val(idProducto);
+        $(".nom-producto").html("Editar: "+ nombre);
+
+        $("#form-edit").on('submit',(function(e) {
+          e.preventDefault();
+
+          $.ajax({
+            url: "../php/consultasProductos.php",
+            type: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data){
+              if(data == 'valid'){
+                alert("Se ha editado el producto con éxito.");
+                window.location.href = "tratos.php";
+              }else{
+                alert("Ha ocurrido un error: " + data);
+              }
+            },
+            error: function(){
+              alert("Ha ocurrido un error");
+            }
+        });
+      }));
+      });
+    });
 
   </script>
 </body>

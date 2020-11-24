@@ -29,7 +29,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="index.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -104,7 +104,7 @@
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html"> <!--nav-link href="charts.html"-->
+        <a class="nav-link" href="graficas.php"> <!--nav-link href="charts.html"-->
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Gráficas</span></a>
       </li>
@@ -118,11 +118,11 @@
         <div id="collapseTables" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Elementos:</h6>
-            <a href="tables.html" class="collapse-item">Leads</a>
-            <a href="tables.html" class="collapse-item">Empleados</a>
-            <a href="tables.html" class="collapse-item">Proveedores</a>
-            <a href="tables.html" class="collapse-item">Pedidos</a>
-            <a href="tables.html" class="collapse-item">Productos</a>
+            <a href="tabla_clientes.php" class="collapse-item">Leads</a>
+            <a href="tabla_empleados.php" class="collapse-item">Empleados</a>
+            <a href="tabla_proveedores.php" class="collapse-item">Proveedores</a>
+            <a href="tabla_pedidos.php" class="collapse-item">Pedidos</a>
+            <a href="tabla_productos.php" class="collapse-item">Productos</a>
           </div>
         </div>
       </li>
@@ -372,23 +372,32 @@
                   </tfoot>
                   <tbody>
                   <?php
-                      include('php/conexion.php');
-                      $sql = "SELECT foto, nombre, correo, idEmpleado as id, ultimaCon FROM empleados;";
-                      $Query = consulta($sql);
-                      $res_array = array();
+                      include('../php/consultasEmpleados.php');
+                      $Query = get_employees_data();
                        // $Query = obtenerClientes();
                         if($Query){
                           for($a = 0; $a < mysqli_num_rows($Query); $a++){
                             $fila = mysqli_fetch_row($Query);
                             echo '<tr>'; 
                             echo "<td><img width=80 height=100 src=php/$fila[0]></td>";   
-                            echo "<td>$fila[1]</td>";   
+                            echo "<td class='nombre-empleado'>$fila[1]</td>";   
                             echo "<td>$fila[2]</td>";  
-                            echo "<td>$fila[3]</td>";   
+                            echo "<td class='id-empleado'>$fila[3]</td>";   
                             echo "<td>$fila[4]</td>";
-                            $res_array[] = $fila[1];
                     ?>
-                            <td><div><a href="#" data-toggle="modal" data-target="#editModal"><i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Editar empleado"></i></a><a href="#" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt" style="margin:10px;" data-toggle="tooltip" data-placement="top" title="Eliminar empleado"></i></a><a href="#" data-toggle="modal" data-target="#tasksModal"><i class="fas fa-flag" data-toggle="tooltip" data-placement="top" title="Dar tarea"></i></a></div></td>
+                            <td>
+                              <div>
+                                <a href="#" data-toggle="modal" data-target="#editModal" class="link-edit">
+                                  <i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Editar empleado"></i>
+                                </a>
+                                <a href="#" data-toggle="modal" data-target="#deleteModal" class="link-delete">
+                                  <i class="fas fa-trash-alt" style="margin:10px;" data-toggle="tooltip" data-placement="top" title="Eliminar empleado"></i>
+                                </a>
+                                <a href="#" data-toggle="modal" data-target="#tasksModal">
+                                  <i class="fas fa-flag" data-toggle="tooltip" data-placement="top" title="Dar tarea"></i>
+                                </a>
+                              </div>
+                            </td>
                     <?php
                             echo '</tr>';
                           }
@@ -428,24 +437,7 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!--Editar empleado modal-->
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Editar empleado</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body"></div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="login.html">Eliminar</a>
-        </div>
-      </div>
-    </div>
-  </div>
+
  
   
       <!--Eliminar empleado modal-->
@@ -458,10 +450,10 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Estás por eliminar a: <?php print_r($res_array[0])?>, ¿estás seguro(a)?</div>
+        <div class="modal-body"><p class="del-user"></p></div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="login.html">Eliminar</a>
+          <button class="btn btn-primary" type="submit" id="delete">Eliminar</a>
         </div>
       </div>
     </div>
@@ -478,7 +470,7 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Estás por eliminar a: , ¿estás seguro(a)?</div>
+        <div class="modal-body"></div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
           <a class="btn btn-primary" href="login.html">Asignar</a>
@@ -506,6 +498,47 @@
     </div>
   </div>
 
+  <!--Editar empleado modal-->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><p class="edit-user"></p></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+                <label for="inputnombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" id="nuevoNombre">
+          </div>
+          <div class="form-group">
+                <label for="inputtelefono">Teléfono</label>
+                <input type="tel" class="form-control" name="telefono" id="nuevoTelefono">
+          </div>
+          <div class="form-group">
+                <label for="inputcorreo">Correo</label>
+                <input type="mail" class="form-control" name="correo" id="nuevoMail">
+          </div>
+          <div class="form-group">
+                <label for="inputcontra">Contraseña</label>
+                <input type="password" class="form-control" name="contra" id="nuevaContra">
+          </div>
+          <div class="form-group">
+                <label for="inputfoto">Foto</label>
+                <input type="file" class="form-control-file" name="foto" id="nuevaFoto">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <button class="btn btn-primary" type="submit" id="edit">Editar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -517,11 +550,88 @@
   <script src="js/sb-admin-2.min.js"></script>
 
   <script>
-        $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
- //       $('.fas fa-envelope').tooltip({ boundary: 'window' })
-    })
-    </script>
+    $(document).ready(function(e){
+      $('[data-toggle="tooltip"]').tooltip();
+
+      //API para eliminar un empleado
+      $(function () {
+          $(".link-delete").click(function() {
+            var a = $(this).parents("tr").find(".nombre-empleado").text();
+            $('.del-user').html("Estás por eliminar a: "+ a + ", ¿estás seguro(a)?");//+ a+ ", ¿estás seguro(a)?");
+            var value = "delete";
+            $('#delete').click(function(){
+              $.ajax({
+                type: "POST",
+                url:'../php/consultasEmpleados.php',
+                data:{
+                  "val": value,
+                  "name": a
+                },
+                dataType: "html",
+                success: function(res){
+                  if(res == "valid"){
+                    alert("Se ha eliminado con éxito");
+                    window.location.href = "empleados.php";
+                  } else{
+                    alert("No se eliminó");
+                   // window.location.href = "empleados.php";
+                  }
+                },
+                error: function(){
+                  alert("Ha ocurrido un error en el proceso");
+                }
+              });
+            });
+          });
+        });
+
+        //API para editar un empleado
+      $(function (){
+        $(".link-edit").click(function(){
+          var a = $(this).parents("tr").find(".nombre-empleado").text();
+          var idEmp = $(this).parents("tr").find(".id-empleado").text();
+          $('.edit-user').html("Editar empleado: "+ a + ' ' + idEmp);
+
+          $('#edit').click(function(){
+            var nom = $("#nuevoNombre").val();  //nombre
+            var mail = $('#nuevoMail').val(); //correo
+            var tel = $('#nuevoTelefono').val();  //telefono
+            var contra = $('#nuevaContra').val(); //contraseña
+            var image = $('#nuevaFoto').val();  //foto
+            var value = "edit";
+            $.ajax({
+              type: "POST",
+              url: '../php/consultasEmpleados.php',
+              data:{
+                "id": idEmp,
+                "nombre": nom,
+                "correo": mail,
+                "telefono": tel,
+                "contrasena": contra,
+                "val" : value,
+                "foto": image
+              },
+              dataType: "html",
+              success: function(res){
+                if(res == "valid"){
+                  alert("Los datos se han actualizado con éxito");
+                  window.location.href = "empleados.php";
+                }else{
+                  alert("No se eliminó");
+                }
+              },
+              error: function(){
+                alert("Ha ocurrido un error en el proceso");
+              }
+            });
+          });
+        });
+      });
+    });
+
+
+
+  </script>
 </body>
 
 </html>
