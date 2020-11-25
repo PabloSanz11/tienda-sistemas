@@ -1,22 +1,30 @@
+<?php
+    include('../php/consultas.php');
+    $totalenCurso = 0;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Blank</title>
+  <title>SB Admin 2 - Tables</title>
 
-  <!-- Custom fonts for this template-->
+  <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  <!-- Custom styles for this template-->
+  <!-- Custom styles for this template -->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap.min.css" rel="stylesheet">
+  
 
 </head>
 
@@ -80,8 +88,8 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Tipos:</h6>
-            <a class="collapse-item" href="pedidos_pendientes.html">Pendientes</a>
-            <a class="collapse-item" href="pedidos_devolucion.html">Devoluciones</a>
+            <a class="collapse-item" href="pedidos_pendientes.php">En curso</a>
+            <a class="collapse-item" href="pedidos_devolucion.php">Devoluciones</a>
           </div>
         </div>
       </li>
@@ -148,21 +156,14 @@
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
           <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
+          <form class="form-inline">
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
+          </form>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
+          
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -331,7 +332,57 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+          <h1 class="h3 mb-2 text-gray-800">Pedidos en curso</h1>
+          <p class="mb-4">Se muestra el concentrado de todos los pedidos en curso hasta la fecha actual.</p>
+
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Pedidos en curso</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID Pedido</th>
+                      <th>Nombre de producto</th>
+                      <th>Fecha de pedido</th>
+                      <th>Fecha de entrega</th>
+                      <th>Precio</th>
+
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+                    <?php
+                      $resCurso = todosEnCurso();
+                      while($enCur = mysqli_fetch_array($resCurso)):  
+                        $totalenCurso = $totalenCurso + $enCur['PRECIO']
+                    ?>
+                    <tr>
+                      <td><?php echo $enCur['idPedido']?></td>
+                      <td><?php echo utf8_encode($enCur['nombre'])?></td>
+                      <td><?php echo $enCur['fechaPedido']?></td>
+                      <td><?php echo $enCur['fechaEntrega']?></td>
+                      <td>$<?php echo $enCur['PRECIO']?> MXN</td>
+                    </tr>
+                      <?php endwhile;?>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>ID Pedido</th>
+                      <th>Nombre de producto</th>
+                      <th>Fecha de pedido</th>
+                      <th>Fecha de entrega</th>
+                      <th>Total: $ <?php echo $totalenCurso?> MXN</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
 
         </div>
         <!-- /.container-fluid -->
@@ -388,6 +439,25 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script>
+    $(document).ready(function() {    
+        $('#dataTable').DataTable({
+          "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+          },
+          responsive:true,
+          autoWidth:false
+        });
+    });
+  </script>
 
 </body>
 

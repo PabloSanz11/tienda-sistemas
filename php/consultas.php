@@ -305,4 +305,37 @@
 
         return $query;
     }
+
+
+    function todosEnCurso()
+    {
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        FROM CARRITOS c, pedidos p, productos pp
+        WHERE p.estado = 'En curso' AND vigente = FALSE AND comprado = TRUE AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
+        $query = consulta($sql);
+
+        return $query;
+    }
+
+    function todosDevueltos(){
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        FROM CARRITOS c, pedidos p, productos pp
+        WHERE p.estado = 'Devuelto' AND vigente = FALSE AND comprado = TRUE AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
+        $query = consulta($sql);
+
+        return $query;
+    }
+
+    function contarDevueltos(){
+        $sql = "SELECT COUNT(pp.nombre) AS cantidad, pp.nombre, c.total AS PRECIO
+                FROM CARRITOS c, pedidos p, productos pp
+                WHERE p.estado = 'Devuelto' AND vigente = FALSE AND comprado = TRUE AND pp.idProducto = c.idProducto AND c.idCarrito = p.idCarrito 
+                group by pp.nombre
+                order by pp.nombre;";
+        $query = consulta($sql);
+
+        return $query;
+    }
+    
+
 ?>
