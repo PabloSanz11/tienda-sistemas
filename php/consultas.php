@@ -188,7 +188,7 @@
 
     function historialPedidos($idCliente)
     {
-        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO, pp.precio AS PRECIOPROD
         FROM CARRITOS c, pedidos p, productos pp
         WHERE vigente = FALSE AND comprado = TRUE AND idCliente = '$idCliente' AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
         $query = consulta($sql);
@@ -278,7 +278,7 @@
 
     function productosComprados($idCliente)
     {
-        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, pp.precio AS PRECIO, p.total AS PAGADO
         FROM CARRITOS c, pedidos p, productos pp
         WHERE p.estado = 'Entregado' AND vigente = FALSE AND comprado = TRUE AND idCliente = '$idCliente' AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
         $query = consulta($sql);
@@ -288,7 +288,7 @@
 
     function productosDevueltos($idCliente)
     {
-        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, pp.precio AS PRECIO, p.total AS PAGADO
         FROM CARRITOS c, pedidos p, productos pp
         WHERE p.estado = 'Devuelto' AND vigente = FALSE AND comprado = TRUE AND idCliente = '$idCliente' AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
         $query = consulta($sql);
@@ -298,7 +298,7 @@
 
     function productosCurso($idCliente)
     {
-        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, pp.precio AS PRECIO, p.total AS PAGADO
         FROM CARRITOS c, pedidos p, productos pp
         WHERE p.estado = 'En curso' AND vigente = FALSE AND comprado = TRUE AND idCliente = '$idCliente' AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
         $query = consulta($sql);
@@ -309,7 +309,7 @@
 
     function todosEnCurso()
     {
-        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, pp.precio AS PRECIO, p.total AS PAGADO
         FROM CARRITOS c, pedidos p, productos pp
         WHERE p.estado = 'En curso' AND vigente = FALSE AND comprado = TRUE AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
         $query = consulta($sql);
@@ -318,7 +318,7 @@
     }
 
     function todosDevueltos(){
-        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, c.total AS PRECIO, p.total AS PAGADO
+        $sql = "SELECT pp.foto, pp.nombre,c.idProducto, p.idPedido, p.fechaPedido, p.fechaEntrega , p.estado, c.cantidad ,pp.descripcion, pp.precio AS PRECIO, p.total AS PAGADO
         FROM CARRITOS c, pedidos p, productos pp
         WHERE p.estado = 'Devuelto' AND vigente = FALSE AND comprado = TRUE AND c.idCarrito = p.idCarrito AND c.idProducto = pp.idProducto;";
         $query = consulta($sql);
@@ -327,11 +327,12 @@
     }
 
     function contarDevueltos(){
-        $sql = "SELECT COUNT(pp.nombre) AS cantidad, pp.nombre, c.total AS PRECIO
+        $sql = "SELECT COUNT(pp.nombre) AS cantidad, pp.nombre, pp.precio AS PRECIO
                 FROM CARRITOS c, pedidos p, productos pp
                 WHERE p.estado = 'Devuelto' AND vigente = FALSE AND comprado = TRUE AND pp.idProducto = c.idProducto AND c.idCarrito = p.idCarrito 
                 group by pp.nombre
-                order by pp.nombre;";
+                order by cantidad DESC
+                LIMIT 3;";
         $query = consulta($sql);
 
         return $query;

@@ -359,7 +359,7 @@
 
                     ?>
                     <tr>
-                      <?php if ($cantidad >=2) {
+                      <?php 
                           $subtotal = $cantidad * $resCont['PRECIO'];
                           $total = $total + $subtotal
                       ?>
@@ -367,7 +367,6 @@
                         <td><?php echo $resCont['cantidad']?></td>
                         <td>$<?php echo $resCont['PRECIO']?> MXN</td>
                         <td>$<?php echo $subtotal?> MXN</td>
-                      <?php } ?>
                     </tr>
                       <?php endwhile;?>
                   </tbody>

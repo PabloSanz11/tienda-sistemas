@@ -485,7 +485,7 @@
                             <strong><p><?php echo utf8_encode($Com['nombre']);?></p></strong>
                             <p align="center">Comprado el: <br><?php echo $Com['fechaPedido'];?></p>
                             <p align="center">Entregado el: <br><?php echo $Com['fechaEntrega'];?></p>
-                            <p align="right">Precio: <?php echo "$".$Com['PRECIO']." MXN";?></p>
+                            <p align="right">Precio: <?php echo "$".$Com['PRECIOPROD']." MXN";?></p>
                           </td>
                         <?php }?>
                       </tr>
@@ -571,7 +571,7 @@
                           <strong><p><?php echo utf8_encode($enCo['nombre']);?></p></strong>
                           <p align="center">Comprado el: <br><?php echo $enCo['fechaPedido'];?></p>
                           <p align="center">Se entrega el: <br><?php echo $enCo['fechaEntrega'];?></p>
-                          <p align="right">Precio: <?php echo "$".$enCo['PRECIO']." MXN";?></p>
+                          <p align="right">Precio: <?php echo "$".$enCo['PRECIOPROD']." MXN";?></p>
                       </td>
                     <?php }?>
 
