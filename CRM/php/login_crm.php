@@ -19,6 +19,7 @@
             {
                 $idEmpleado= $rU['idEmpleado'];
                 $nombre = $rU['nombre'];
+                $fotoPerfil = $rU['foto'];
             }
                 
             $sql = "UPDATE empleados
@@ -26,7 +27,8 @@
                     WHERE correo = '$correo'";
 
             $upd = consulta($sql);
-
+            
+            $_SESSION['fotoperfil'] = $fotoPerfil;
             $_SESSION['idEmpleado'] = $idEmpleado;
             $_SESSION['nombre'] = utf8_encode($nombre);
             $_SESSION['correo'] = $correo;
@@ -35,17 +37,17 @@
 
             if($upd == 1)
             {
-               header('Location: index.php');
+               header('Location: ../index.php');
             }
         }else
         {
             //echo "No funciona";
-            header('Location: login.html');
+            header('Location: ../login.html');
         }
     }else
     {
         //echo "No funciona2";
-        header('Location: login.html');
+        header('Location: ../login.html');
     }
 
 ?>

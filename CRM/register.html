@@ -23,29 +23,6 @@
   input[type="file"]{
     display:block;
   }
-  #lab-foto{
-    color:white;
-    height:60px;
-    width: 250px;
-    background-color: #f5af09;
-    margin:auto;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size:20px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    border-radius: 25px;
-    
-  }
-
-  #lab-foto:hover{
-    background-color:#f0951d;
-    cursor:pointer;
-    transition:0.2s;
-  }
 </style>
 </head>
 
@@ -61,9 +38,9 @@
           <div class="col-lg-7">
             <div class="p-5">
               <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">Crear cuenta para empleado</h1>
+                <h1 class="h4 text-gray-900 mb-4">VasaCRM Registro empleados</h1>
               </div>
-              <form class="user" action="../php/registro_crm.php" method="POST" enctype="multipart/form-data">
+              <form class="user" action="php/registro_crm.php" method="POST" enctype="multipart/form-data">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
                     <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Ingresar nombre" name="nombre" required>
@@ -84,28 +61,15 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="file" name="foto-subir" id="foto-subir" accept="image/jpg">
-                  <label for="foto-subir" id="lab-foto">
-                    <!--<span class="material-icons">
-                      add_photo_alternate</span> &nbsp;
-                    Elige una foto</label>-->
+                  <label for="foto-subir">
+                  <input type="file" name="foto-subir" id="foto-subir" accept="image/*">
                 </div>
                 <input type="submit" class="btn btn-primary btn-user btn-block" name="submit" value="Registrar empleado">
                 <hr>
-                <a href="index.html" class="btn btn-google btn-user btn-block">
-                  <i class="fab fa-google fa-fw"></i> Register with Google
-                </a>
-                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                  <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                </a>
+                <div class="text-center">
+                  <a class="small" href="login.html">Ingresa al sistema</a>
+                </div>
               </form>
-              <hr>
-              <div class="text-center">
-                <a class="small" href="forgot-password.html">Forgot Password?</a>
-              </div>
-              <div class="text-center">
-                <a class="small" href="login.html">Already have an account? Login!</a>
-              </div>
             </div>
           </div>
         </div>

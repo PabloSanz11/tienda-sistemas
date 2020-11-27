@@ -3,7 +3,7 @@
     define ('SITE_ROOT', realpath(dirname(__FILE__)));
     $fecha = new DateTime(null, new DateTimeZone('CST'));
 
-    $nombreDirectorio = "empleados-img/";
+    $nombreDirectorio = "empleados-crm-img/";
     $nombreFichero = $_FILES['foto-subir']['name'];
 
 
@@ -52,5 +52,6 @@
                 }
         }
     }
+    header('Location: ../login.html');
 }
 ?>

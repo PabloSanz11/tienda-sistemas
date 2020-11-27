@@ -11,6 +11,14 @@ if(isset($_POST["val"]) == true){
         case "edit":
             update_employee();
             break;
+        
+        case "task":
+            assign_tasks();
+        break;
+
+        case "term":
+            finish_task();
+        break;
     }
 }
 
@@ -70,10 +78,71 @@ function delete_employee() {
    }   
 }
 
+function assign_tasks(){
+    $fecha = new DateTime(null, new DateTimeZone('CST'));
+
+    if(isset($_POST['descripcion']) && isset($_POST['idEmpleado'])){
+        $descripcion = $_POST['descripcion'];
+        $id = $_POST['idEmpleado'];
+        $ultimaCon = $fecha->format('Y-m-d H:i:s');
+
+        $sql = "SELECT * FROM empleados WHERE idEmpleado = '$id'";
+        $query = consulta($sql);
+        $row = mysqli_num_rows($query);
+        if($row == 1){
+            $sql2 = "INSERT INTO tareas (descripcion, estado, fechaCreacion, idEmpleado)
+                    VALUES('$descripcion', 'Pendiente', '$ultimaCon', '$id');";
+            $con = mysqli_connect('us-cdbr-east-02.cleardb.com','b5bb920c4d74d4','7b5379b9','heroku_2eb4075a39b1458');
+            $res = mysqli_query($con,$sql2);
+            if(!$res){
+                echo "Error: " . mysqli_error($con);
+            }else{
+                echo "valid";
+                exit();
+            }
+            mysqli_close($con);
+//            $query = consulta($sql);
+        } 
+    }
+}
+
+
 function get_employees_data(){
     $sql = "SELECT foto, nombre, correo, idEmpleado as id, ultimaCon FROM empleados;";
     $query = consulta($sql);
     return $query;
+}
+
+
+//Funciones para Tareas
+
+function get_tasks($value){
+    $sql = "SELECT empleados.nombre, tareas.descripcion, tareas.fechaCreacion
+     FROM tareas
+     INNER JOIN empleados ON tareas.idEmpleado = empleados.idEmpleado
+     WHERE tareas.estado = '$value'";
+    $query = consulta($sql);
+    return $query;
+}
+
+function finish_task(){
+    if(isset($_POST['id'])){
+        $id = $_POST['id'];
+        $con = mysqli_connect('us-cdbr-east-02.cleardb.com','b5bb920c4d74d4','7b5379b9','heroku_2eb4075a39b1458');
+        $sql = "UPDATE tareas SET estado = 'Terminada' WHERE idTarea='$id'";
+        $res = mysqli_query($con,$sql);
+        if(!$res){
+            echo "Error: " . mysqli_error($con);
+        }
+    }
+    mysqli_close($con);
+    header('Location: ../CRM/perfil-empleado.php');
+}
+
+function get_progress(){
+   $sql =  "SELECT COUNT(*) FROM tareas WHERE estado = 'Terminada';";
+   $query = consulta($sql);
+   return $query;
 }
 
 ?>
